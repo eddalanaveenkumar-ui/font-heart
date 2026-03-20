@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>How AI Detects Heart Disease Risk — Explained Simply | Cardio Scanner</title>
+<meta name="description" content="Learn how artificial intelligence detects heart disease risk using 7 clinical markers. Plain-English explanation of the UCI dataset, machine learning models, and why early screening saves lives."/>
+<meta name="keywords" content="AI heart disease detection, how AI detects heart disease, heart disease risk AI, machine learning cardiology, heart attack prevention AI, cardiovascular risk explained, UCI heart disease dataset"/>
+<meta name="author" content="Eddala Naveen Kumar"/>
+<meta name="robots" content="index, follow"/>
+<link rel="canonical" href="https://cardioscaner.netlify.app/blog.html"/>
+<meta property="og:title" content="How AI Detects Heart Disease Risk — Explained Simply"/>
+<meta property="og:description" content="Plain-English guide to how AI detects cardiovascular risk. No jargon. Just clear science."/>
+<meta property="og:url" content="https://cardioscaner.netlify.app/blog.html"/>
+<meta property="og:type" content="article"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How AI Detects Heart Disease Risk — Explained Simply",
+  "description": "Plain-English explanation of how artificial intelligence detects cardiovascular risk using clinical markers and machine learning.",
+  "author": {
+    "@type": "Person",
+    "name": "Eddala Naveen Kumar",
+    "affiliation": {"@type": "EducationalOrganization", "name": "Prathyusha Engineering College"}
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Cardio Scanner",
+    "url": "https://cardioscaner.netlify.app"
+  },
+  "datePublished": "2026-03-20",
+  "dateModified": "2026-03-20",
+  "mainEntityOfPage": "https://cardioscaner.netlify.app/blog.html"
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:#F9FAFB;color:#111827;line-height:1.7;overflow-x:hidden}
+:root{
+  --red:#DC2626;--rh:#B91C1C;--rs:#FEF2F2;
+  --ink:#111827;--i2:#374151;--i3:#6B7280;--i4:#9CA3AF;
+  --line:#E5E7EB;--bg2:#F3F4F6;
+  --green:#16A34A;--gs:#F0FDF4;
+  --amber:#D97706;--as:#FFFBEB;
+  --sh:0 1px 3px rgba(0,0,0,.08);
+  --sm:0 4px 20px rgba(0,0,0,.07);
+  --sl:0 12px 48px rgba(0,0,0,.10);
+}
+a{color:var(--red);text-decoration:none}
+a:hover{text-decoration:underline}
+.container{max-width:1080px;margin:0 auto;padding:0 24px}
+.prose{max-width:720px;margin:0 auto}
+
+/* NAV */
+#nav{position:sticky;top:0;z-index:100;height:64px;
+  background:rgba(249,250,251,.95);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--line);box-shadow:var(--sh)}
+.nav-in{height:64px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.logo-mark{width:34px;height:34px;border-radius:9px;background:var(--red);
+  display:flex;align-items:center;justify-content:center}
+.logo-mark svg{width:17px;height:17px;fill:white}
+.logo-name{font-size:16px;font-weight:800;letter-spacing:-.3px}
+.logo-name span{color:var(--red)}
+.nav-right{display:flex;align-items:center;gap:12px}
+.btn-back{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;
+  background:transparent;color:var(--i3);border:1.5px solid var(--line);
+  border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;text-decoration:none}
+.btn-back:hover{border-color:var(--ink);color:var(--ink);text-decoration:none}
+.btn-scan{height:36px;padding:0 16px;background:var(--red);color:white;border:none;
+  border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:13px;font-weight:700;cursor:pointer;transition:background .15s;
+  text-decoration:none;display:inline-flex;align-items:center}
+.btn-scan:hover{background:var(--rh);text-decoration:none}
+
+/* HERO */
+.blog-hero{background:white;border-bottom:1px solid var(--line);padding:56px 0 48px}
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--i4);margin-bottom:20px}
+.breadcrumb a{color:var(--i4);font-weight:500;text-decoration:none;transition:color .15s}
+.breadcrumb a:hover{color:var(--ink)}
+.breadcrumb-sep{color:var(--line)}
+.blog-category{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;
+  background:var(--rs);color:var(--rh);border:1px solid rgba(220,38,38,.2);
+  border-radius:20px;font-size:11px;font-weight:800;letter-spacing:.5px;
+  text-transform:uppercase;margin-bottom:20px}
+.blog-h1{font-family:'Fraunces',serif;font-size:clamp(28px,5vw,48px);font-weight:800;
+  line-height:1.15;letter-spacing:-.025em;margin-bottom:16px}
+.blog-h1 em{font-style:italic;color:var(--red)}
+.blog-lead{font-size:18px;color:var(--i2);line-height:1.75;margin-bottom:28px;max-width:640px}
+.meta-row{display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+  padding-top:20px;border-top:1px solid var(--line)}
+.meta-item{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--i3);font-weight:500}
+.meta-item svg{width:14px;height:14px;stroke:var(--i3);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.meta-div{width:1px;height:14px;background:var(--line)}
+
+/* ARTICLE BODY */
+.blog-body{padding:56px 24px 80px}
+.toc-card{background:white;border:1.5px solid var(--line);border-radius:12px;
+  padding:20px 24px;margin-bottom:48px}
+.toc-card-title{font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--i3);margin-bottom:12px}
+.toc-list{list-style:none;display:flex;flex-direction:column;gap:6px}
+.toc-list a{font-size:14px;font-weight:600;color:var(--i2);text-decoration:none;
+  display:flex;align-items:center;gap:8px;transition:color .15s}
+.toc-list a:hover{color:var(--red)}
+.toc-list a::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--i4);flex-shrink:0}
+.toc-list a:hover::before{background:var(--red)}
+
+/* Prose styles */
+.prose h2{font-family:'Fraunces',serif;font-size:clamp(22px,3vw,30px);font-weight:800;
+  color:var(--ink);margin:48px 0 16px;letter-spacing:-.02em;line-height:1.2}
+.prose h3{font-size:18px;font-weight:700;color:var(--ink);margin:32px 0 12px}
+.prose p{font-size:16px;color:var(--i2);line-height:1.8;margin-bottom:18px}
+.prose p:last-child{margin-bottom:0}
+.prose ul,.prose ol{margin:16px 0 18px 20px}
+.prose li{font-size:16px;color:var(--i2);line-height:1.75;margin-bottom:8px}
+.prose strong{font-weight:700;color:var(--ink)}
+.prose a{color:var(--red);font-weight:600}
+.prose hr{border:none;border-top:1px solid var(--line);margin:40px 0}
+
+/* Callout boxes */
+.callout{border-radius:10px;padding:16px 20px;margin:24px 0;
+  display:flex;gap:12px;align-items:flex-start}
+.callout svg{width:18px;height:18px;flex-shrink:0;margin-top:2px;
+  fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.callout-body strong{display:block;font-size:13px;font-weight:800;margin-bottom:4px}
+.callout-body p{font-size:14px;line-height:1.65;margin:0;color:inherit}
+.callout.green{background:var(--gs);border:1.5px solid rgba(22,163,74,.2)}
+.callout.green svg{stroke:var(--green)}
+.callout.green .callout-body strong{color:var(--green)}
+.callout.green .callout-body p{color:#166534}
+.callout.red{background:var(--rs);border:1.5px solid rgba(220,38,38,.2)}
+.callout.red svg{stroke:var(--red)}
+.callout.red .callout-body strong{color:var(--red)}
+.callout.red .callout-body p{color:#7F1D1D}
+.callout.amber{background:var(--as);border:1.5px solid rgba(217,119,6,.2)}
+.callout.amber svg{stroke:var(--amber)}
+.callout.amber .callout-body strong{color:var(--amber)}
+.callout.amber .callout-body p{color:#78350F}
+.callout.blue{background:#EFF6FF;border:1.5px solid rgba(59,130,246,.2)}
+.callout.blue svg{stroke:#2563EB}
+.callout.blue .callout-body strong{color:#1D4ED8}
+.callout.blue .callout-body p{color:#1E40AF}
+
+/* Stat highlight blocks */
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:28px 0}
+.stat-box{background:white;border:1.5px solid var(--line);border-radius:12px;
+  padding:20px;text-align:center}
+.stat-box-num{font-family:'Fraunces',serif;font-size:32px;font-weight:900;
+  color:var(--red);line-height:1;margin-bottom:6px}
+.stat-box-label{font-size:13px;color:var(--i3);font-weight:600;line-height:1.4}
+
+/* Feature table */
+.feature-table{width:100%;border-collapse:collapse;margin:20px 0;
+  border-radius:10px;overflow:hidden;border:1.5px solid var(--line)}
+.feature-table th{background:var(--bg2);text-align:left;padding:12px 16px;
+  font-size:12px;font-weight:800;color:var(--i3);letter-spacing:.5px;
+  text-transform:uppercase;border-bottom:1.5px solid var(--line)}
+.feature-table td{padding:12px 16px;font-size:14px;color:var(--i2);
+  border-bottom:1px solid var(--line);vertical-align:top;line-height:1.6}
+.feature-table tr:last-child td{border-bottom:none}
+.feature-table tr:nth-child(even) td{background:var(--bg2)}
+.feature-table td strong{color:var(--ink);font-weight:700}
+.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700}
+.tag-red{background:var(--rs);color:var(--red);border:1px solid rgba(220,38,38,.2)}
+.tag-green{background:var(--gs);color:var(--green);border:1px solid rgba(22,163,74,.2)}
+.tag-amber{background:var(--as);color:var(--amber);border:1px solid rgba(217,119,6,.2)}
+
+/* Pull quote */
+.pull-quote{border-left:4px solid var(--red);padding:16px 24px;margin:28px 0;
+  background:var(--rs);border-radius:0 10px 10px 0}
+.pull-quote p{font-family:'Fraunces',serif;font-size:20px;font-style:italic;
+  font-weight:700;color:var(--rh);line-height:1.5;margin:0}
+
+/* Step cards */
+.step-list{display:flex;flex-direction:column;gap:16px;margin:24px 0}
+.step-item{display:flex;gap:16px;align-items:flex-start;
+  background:white;border:1.5px solid var(--line);border-radius:12px;padding:18px 20px}
+.step-num{width:32px;height:32px;border-radius:8px;background:var(--red);
+  color:white;font-size:14px;font-weight:800;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center}
+.step-item h4{font-size:15px;font-weight:700;margin-bottom:4px;color:var(--ink)}
+.step-item p{font-size:14px;color:var(--i3);line-height:1.6;margin:0}
+
+/* CTA banner */
+.cta-banner{background:var(--red);border-radius:16px;padding:32px;
+  text-align:center;margin:48px 0}
+.cta-banner h3{font-family:'Fraunces',serif;font-size:24px;font-weight:800;
+  color:white;margin-bottom:10px}
+.cta-banner p{color:rgba(255,255,255,.8);font-size:15px;margin-bottom:24px}
+.btn-cta-white{height:48px;padding:0 28px;background:white;color:var(--red);border:none;
+  border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:15px;font-weight:700;cursor:pointer;transition:all .15s;
+  display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+.btn-cta-white:hover{background:#FEF2F2;transform:translateY(-1px);text-decoration:none}
+
+/* Related posts */
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:16px}
+.related-card{background:white;border:1.5px solid var(--line);border-radius:12px;
+  padding:20px;text-decoration:none;transition:all .2s;display:block}
+.related-card:hover{border-color:rgba(220,38,38,.25);box-shadow:var(--sm);text-decoration:none}
+.related-card-tag{font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;
+  color:var(--red);margin-bottom:8px}
+.related-card h4{font-size:15px;font-weight:700;color:var(--ink);line-height:1.4;margin-bottom:6px}
+.related-card p{font-size:13px;color:var(--i3);line-height:1.5;margin:0}
+
+/* Footer */
+footer{background:#0F172A;padding:32px 0 24px}
+.foot-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.foot-inner p{font-size:13px;color:rgba(255,255,255,.3)}
+.foot-links{display:flex;gap:20px}
+.foot-links a{font-size:13px;color:rgba(255,255,255,.4);text-decoration:none;transition:color .15s;font-weight:500}
+.foot-links a:hover{color:white}
+.foot-disc{font-size:12px;color:rgba(255,255,255,.2);font-style:italic;margin-top:8px;width:100%}
+
+/* Responsive */
+@media(max-width:640px){
+  .stat-grid{grid-template-columns:1fr 1fr}
+  .related-grid{grid-template-columns:1fr}
+  .btn-back{display:none}
+  .meta-div{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header>
+<nav id="nav">
+  <div class="container">
+    <div class="nav-in">
+      <a class="logo" href="/" aria-label="Cardio Scanner Home">
+        <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg></div>
+        <span class="logo-name">Cardio<span>Scanner</span></span>
+      </a>
+      <div class="nav-right">
+        <a href="/" class="btn-back">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Home
+        </a>
+        <a href="index.html" class="btn-scan">Check My Heart Risk</a>
+      </div>
+    </div>
+  </div>
+</nav>
+</header>
+
+<!-- HERO -->
+<div class="blog-hero">
+  <div class="container">
+    <div class="prose">
+      <div class="breadcrumb">
+        <a href="/">Home</a>
+        <span class="breadcrumb-sep">›</span>
+        <a href="/blog.html">Blog</a>
+        <span class="breadcrumb-sep">›</span>
+        <span>AI &amp; Heart Disease</span>
+      </div>
+      <div class="blog-category">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        AI in Cardiology
+      </div>
+      <h1 class="blog-h1">How AI Detects Heart Disease Risk —<br/><em>Explained Simply</em></h1>
+      <p class="blog-lead">Most people don't know they're at risk until they feel it. AI is changing that. Here's exactly how machine learning reads clinical data to flag heart disease — no jargon, no medical degree required.</p>
+      <div class="meta-row">
+        <div class="meta-item">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Eddala Naveen Kumar
+        </div>
+        <div class="meta-div"></div>
+        <div class="meta-item">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          March 20, 2026
+        </div>
+        <div class="meta-div"></div>
+        <div class="meta-item">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          8 min read
+        </div>
+        <div class="meta-div"></div>
+        <div class="meta-item">
+          <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          Prathyusha Engineering College
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="blog-body">
+  <div class="container">
+    <div class="prose">
+
+      <!-- TABLE OF CONTENTS -->
+      <div class="toc-card">
+        <div class="toc-card-title">In This Article</div>
+        <ul class="toc-list">
+          <li><a href="#why-it-matters">Why heart disease is so hard to catch early</a></li>
+          <li><a href="#what-ai-sees">What clinical markers does AI actually read?</a></li>
+          <li><a href="#how-model-works">How the machine learning model works</a></li>
+          <li><a href="#why-ensemble">Why three models are better than one</a></li>
+          <li><a href="#what-results-mean">What your risk score actually means</a></li>
+          <li><a href="#limitations">Honest limitations you should know</a></li>
+          <li><a href="#what-to-do">What to do with your result</a></li>
+        </ul>
+      </div>
+
+      <!-- SECTION 1 -->
+      <h2 id="why-it-matters">Why Heart Disease Is So Hard to Catch Early</h2>
+      <p>Heart disease is the world's leading cause of death — and the cruelest thing about it is how quietly it develops. Unlike a broken bone or an infection, coronary artery disease builds silently over decades. Fatty plaques accumulate in artery walls. Blood flow slowly narrows. And for millions of people, <strong>the first symptom is a heart attack.</strong></p>
+
+      <div class="stat-grid">
+        <div class="stat-box">
+          <div class="stat-box-num">17.9M</div>
+          <div class="stat-box-label">Deaths per year globally (WHO 2023)</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-num">50%</div>
+          <div class="stat-box-label">Of cardiac deaths had no prior symptoms</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-num">80%</div>
+          <div class="stat-box-label">Of heart disease deaths are preventable</div>
+        </div>
+      </div>
+
+      <p>Traditional screening — ECGs, stress tests, angiography — is expensive, invasive, and only available to those who already suspect a problem. What if a simple set of clinical values could flag high-risk patients before they ever feel a symptom?</p>
+
+      <p>That's exactly what AI-powered heart risk detection does.</p>
+
+      <div class="callout red">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <div class="callout-body">
+          <strong>Important disclaimer</strong>
+          <p>AI heart disease detection tools — including CardioScanner — are screening aids only. They do not diagnose heart disease. Always consult a qualified cardiologist for medical decisions.</p>
+        </div>
+      </div>
+
+      <hr/>
+
+      <!-- SECTION 2 -->
+      <h2 id="what-ai-sees">What Clinical Markers Does AI Actually Read?</h2>
+      <p>The CardioScanner AI model is trained on the <strong>UCI Heart Disease Cleveland Dataset</strong> — 303 real patient records collected at the Cleveland Clinic Foundation by Dr. Robert Detrano and colleagues (1989). It's the most cited cardiology ML dataset in research history.</p>
+      <p>From 14 original features, the model uses the 7 most predictive:</p>
+
+      <table class="feature-table" aria-label="Clinical features used by the AI model">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>What It Measures</th>
+            <th>Why It Matters</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Age</strong></td>
+            <td>Patient age in years</td>
+            <td>Risk rises sharply after 45 (men) and 55 (women)</td>
+          </tr>
+          <tr>
+            <td><strong>Chest Pain Type</strong></td>
+            <td>Type of chest pain experienced (0–3 scale)</td>
+            <td>Asymptomatic chest pain is the highest-risk pattern — counterintuitively</td>
+          </tr>
+          <tr>
+            <td><strong>Max Heart Rate</strong></td>
+            <td>Peak heart rate during exercise (bpm)</td>
+            <td>Lower maximum HR often signals reduced cardiac reserve</td>
+          </tr>
+          <tr>
+            <td><strong>Exercise Angina</strong></td>
+            <td>Chest pain triggered by physical activity</td>
+            <td>Strong predictor of obstructive coronary disease</td>
+          </tr>
+          <tr>
+            <td><strong>ST Depression</strong></td>
+            <td>ECG reading: ST segment change under exercise</td>
+            <td>Indicates cardiac ischemia — reduced blood flow to heart muscle</td>
+          </tr>
+          <tr>
+            <td><strong>Major Vessels</strong></td>
+            <td>Number of vessels showing blockage (0–3)</td>
+            <td>Direct marker of coronary artery disease severity</td>
+          </tr>
+          <tr>
+            <td><strong>Thalassemia</strong></td>
+            <td>Blood disorder type: normal, fixed, or reversible defect</td>
+            <td>Reversible defects indicate areas of reduced perfusion under stress</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="pull-quote">
+        <p>"The most surprising finding is that asymptomatic chest pain carries higher cardiovascular risk than typical angina. The absence of pain doesn't mean the absence of disease."</p>
+      </div>
+
+      <hr/>
+
+      <!-- SECTION 3 -->
+      <h2 id="how-model-works">How the Machine Learning Model Works</h2>
+      <p>The model doesn't simply check if your values are "too high" or "too low." It learns <em>patterns</em> — combinations of features that, together, are associated with disease in real patients.</p>
+      <p>Here's the process from input to output:</p>
+
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div>
+            <h4>Feature Scaling</h4>
+            <p>Your 7 inputs are normalised using StandardScaler — so age (e.g. 55) and heart rate (e.g. 150) are on the same numerical scale. Without this, high-magnitude features would unfairly dominate the model.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div>
+            <h4>Ensemble Voting</h4>
+            <p>Three classifiers — Random Forest, Gradient Boosting, and Logistic Regression — each independently analyse your data and produce a disease-probability score. Their predictions are then averaged (soft voting).</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div>
+            <h4>Probability Calibration</h4>
+            <p>Raw model probabilities can be overconfident or underconfident. Sigmoid calibration (Platt Scaling) reshapes them so a "72% risk" actually means a 72% likelihood based on real data — not just a model quirk.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">4</div>
+          <div>
+            <h4>Risk Classification</h4>
+            <p>The calibrated probability is mapped to three bands: Low (&lt;35%), Moderate (35–65%), and High (&gt;65%). A confidence score reflects how clearly you fall into that band.</p>
+          </div>
+        </div>
+      </div>
+
+      <hr/>
+
+      <!-- SECTION 4 -->
+      <h2 id="why-ensemble">Why Three Models Are Better Than One</h2>
+      <p>Using a single algorithm is risky — it may perform well on most patients but fail on edge cases. Combining three diverse classifiers reduces this problem significantly.</p>
+
+      <table class="feature-table" aria-label="Comparison of classifiers">
+        <thead>
+          <tr>
+            <th>Classifier</th>
+            <th>Strength</th>
+            <th>What It Contributes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Random Forest</strong></td>
+            <td>Handles non-linear relationships well</td>
+            <td>Catches complex feature interactions (e.g. age + ST depression together)</td>
+          </tr>
+          <tr>
+            <td><strong>Gradient Boosting</strong></td>
+            <td>High accuracy on tabular data</td>
+            <td>Learns from previous mistakes iteratively — very strong on clinical datasets</td>
+          </tr>
+          <tr>
+            <td><strong>Logistic Regression</strong></td>
+            <td>Stable, interpretable baseline</td>
+            <td>Prevents overfitting; provides a reliable probability floor</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>The ensemble achieves <strong>85%+ accuracy</strong> on the UCI test set — verified across 5 independent data splits (5-fold cross-validation). This outperforms any single classifier by 5–8 percentage points.</p>
+
+      <div class="callout green">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        <div class="callout-body">
+          <strong>Peer-reviewed foundation</strong>
+          <p>The dataset and clinical features are based on: Detrano, R. et al. (1989). "International application of a new probability algorithm for the diagnosis of coronary artery disease." <em>American Journal of Cardiology</em>, 64(5), 304–310.</p>
+        </div>
+      </div>
+
+      <hr/>
+
+      <!-- SECTION 5 -->
+      <h2 id="what-results-mean">What Your Risk Score Actually Means</h2>
+      <p>A number between 0 and 100% is returned. Here's how to interpret it honestly:</p>
+
+      <table class="feature-table" aria-label="Risk score interpretation">
+        <thead>
+          <tr>
+            <th>Score</th>
+            <th>Level</th>
+            <th>What It Means</th>
+            <th>Suggested Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>0 – 34%</strong></td>
+            <td><span class="tag tag-green">Low</span></td>
+            <td>Clinical parameters are consistent with low cardiovascular risk</td>
+            <td>Annual checkup, healthy lifestyle</td>
+          </tr>
+          <tr>
+            <td><strong>35 – 65%</strong></td>
+            <td><span class="tag tag-amber">Moderate</span></td>
+            <td>Some risk indicators elevated — warrants attention</td>
+            <td>Cardiology appointment within 2–4 weeks</td>
+          </tr>
+          <tr>
+            <td><strong>66 – 100%</strong></td>
+            <td><span class="tag tag-red">High</span></td>
+            <td>Multiple high-risk patterns detected in your input data</td>
+            <td>Urgent cardiology appointment — do not delay</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout amber">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <div class="callout-body">
+          <strong>A Low result is not a guarantee</strong>
+          <p>It means your <em>entered parameters</em> match a low-risk profile on the UCI dataset. The model doesn't know your full medical history, family history, cholesterol levels, or lifestyle. Use it as a starting point — not a final answer.</p>
+        </div>
+      </div>
+
+      <hr/>
+
+      <!-- SECTION 6 -->
+      <h2 id="limitations">Honest Limitations You Should Know</h2>
+      <p>Good science requires transparency about what a model <em>can't</em> do. Here's what CardioScanner does not account for:</p>
+      <ul>
+        <li><strong>Family history</strong> — genetic predisposition is not captured in the 7 inputs</li>
+        <li><strong>Cholesterol &amp; blood pressure</strong> — important markers not in the UCI feature set used here</li>
+        <li><strong>Population bias</strong> — the Cleveland dataset is predominantly from one hospital in the USA in 1989; performance may vary across different demographics</li>
+        <li><strong>Dynamic changes</strong> — a single scan is a snapshot; your risk changes over time with lifestyle, medication, and age</li>
+        <li><strong>Other heart conditions</strong> — the model specifically targets coronary artery disease, not all forms of cardiac illness</li>
+      </ul>
+
+      <div class="callout blue">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <div class="callout-body">
+          <strong>Why we publish these limitations</strong>
+          <p>Health tools that hide their weaknesses are dangerous. We list ours openly so you make informed decisions. The goal is to make you more aware, not to replace your doctor.</p>
+        </div>
+      </div>
+
+      <hr/>
+
+      <!-- SECTION 7 -->
+      <h2 id="what-to-do">What to Do With Your Result</h2>
+      <p>Regardless of your score, here are the most impactful steps you can take for your heart health today:</p>
+
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div>
+            <h4>If your score is High — act today</h4>
+            <p>Book a cardiology appointment. Take a screenshot of your result. Tell your doctor your inputs and the score. This is a signal — not a diagnosis — but it's one worth taking seriously immediately.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div>
+            <h4>If your score is Moderate — plan within 2–4 weeks</h4>
+            <p>Schedule a routine cardiology consultation. Your GP can order lipid panels, blood pressure monitoring, and an ECG. Address any modifiable risk factors: smoking, weight, inactivity.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div>
+            <h4>If your score is Low — maintain and monitor</h4>
+            <p>You're in a good range based on today's inputs. Keep annual checkups, maintain a heart-healthy diet (less saturated fat, more fibre), exercise 150 minutes per week, and re-scan in 6 months.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">4</div>
+          <div>
+            <h4>Everyone — know the warning signs</h4>
+            <p>Chest pain or pressure, shortness of breath, pain radiating to the arm or jaw, sudden dizziness, and cold sweats are cardiac emergency signals. Call 112 (India) or 911 (US) immediately — do not drive yourself.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA BANNER -->
+      <div class="cta-banner">
+        <h3>Check Your Heart Risk Right Now</h3>
+        <p>Free. 30 seconds. Based on peer-reviewed clinical research. No registration needed.</p>
+        <a href="/#scan" class="btn-cta-white">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Start Free Heart Scan
+        </a>
+      </div>
+
+      <!-- RELATED POSTS -->
+      <h3 style="margin-bottom:4px;margin-top:0">More From CardioScanner</h3>
+      <p style="font-size:14px;color:var(--i3);margin-bottom:16px">Continue learning about your heart health.</p>
+      <div class="related-grid">
+        <a href="/blog.html" class="related-card">
+          <div class="related-card-tag">Coming Soon</div>
+          <h4>What Are the Symptoms of Heart Disease?</h4>
+          <p>The warning signs your body sends — and why so many people miss them.</p>
+        </a>
+        <a href="/blog.html" class="related-card">
+          <div class="related-card-tag">Coming Soon</div>
+          <h4>5 Lifestyle Changes That Reduce Heart Risk</h4>
+          <p>Evidence-based steps that genuinely move the needle on cardiovascular health.</p>
+        </a>
+        <a href="/blog.html" class="related-card">
+          <div class="related-card-tag">Coming Soon</div>
+          <h4>What Is an ECG and What Does It Show?</h4>
+          <p>Understanding the test that detects electrical problems in your heart.</p>
+        </a>
+        <a href="/blog.html" class="related-card">
+          <div class="related-card-tag">Coming Soon</div>
+          <h4>AI in Medicine: How Far We've Come</h4>
+          <p>From radiology to cardiology — the real state of machine learning in healthcare.</p>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="foot-inner">
+      <p>© 2026 CardioScanner · Eddala Naveen Kumar · Prathyusha Engineering College</p>
+      <div class="foot-links">
+        <a href="/">Home</a>
+        <a href="/#scan">Free Scan</a>
+        <a href="/privacy.html">Privacy</a>
+        <a href="mailto:naveenkumar@prathyusha.edu.in">Contact</a>
+      </div>
+    </div>
+    <div class="foot-disc">Not a medical diagnosis tool. For educational screening only. Always consult a qualified cardiologist.</div>
+  </div>
+</footer>
+
+</body>
+</html>
