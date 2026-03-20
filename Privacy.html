@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Privacy Policy — Cardio Scanner</title>
+<meta name="description" content="Privacy Policy for Cardio Scanner. Learn how we handle your data, what we collect, and your rights as a user of our free AI heart risk screening tool."/>
+<meta name="robots" content="index, follow"/>
+<link rel="canonical" href="https://cardioscaner.netlify.app/privacy.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:ital,wght@0,700;0,800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:#F9FAFB;color:#111827;line-height:1.6;overflow-x:hidden}
+:root{
+  --red:#DC2626;--rh:#B91C1C;--rs:#FEF2F2;
+  --ink:#111827;--i2:#374151;--i3:#6B7280;--i4:#9CA3AF;
+  --line:#E5E7EB;--bg2:#F3F4F6;
+  --green:#16A34A;--gs:#F0FDF4;
+  --sh:0 1px 3px rgba(0,0,0,.08);
+  --sm:0 4px 20px rgba(0,0,0,.07);
+  --sl:0 12px 48px rgba(0,0,0,.10);
+}
+a{color:var(--red);text-decoration:none;font-weight:600}
+a:hover{text-decoration:underline}
+.container{max-width:1080px;margin:0 auto;padding:0 24px}
+.content-wrap{max-width:720px;margin:0 auto}
+
+/* NAV */
+#nav{position:sticky;top:0;z-index:100;height:64px;
+  background:rgba(249,250,251,.95);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--line);box-shadow:var(--sh)}
+.nav-in{height:64px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.logo-mark{width:34px;height:34px;border-radius:9px;background:var(--red);
+  display:flex;align-items:center;justify-content:center}
+.logo-mark svg{width:17px;height:17px;fill:white}
+.logo-name{font-size:16px;font-weight:800;letter-spacing:-.3px;color:var(--ink)}
+.logo-name span{color:var(--red)}
+.nav-right{display:flex;align-items:center;gap:16px}
+.btn-back{display:inline-flex;align-items:center;gap:6px;
+  height:36px;padding:0 16px;background:transparent;
+  color:var(--i3);border:1.5px solid var(--line);border-radius:8px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:600;
+  cursor:pointer;transition:all .15s;text-decoration:none}
+.btn-back:hover{border-color:var(--ink);color:var(--ink);text-decoration:none}
+.btn-scan{height:36px;padding:0 16px;background:var(--red);color:white;border:none;
+  border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:13px;font-weight:700;cursor:pointer;transition:background .15s;text-decoration:none;
+  display:inline-flex;align-items:center}
+.btn-scan:hover{background:var(--rh);text-decoration:none}
+
+/* HERO */
+.page-hero{background:white;border-bottom:1px solid var(--line);padding:56px 0 48px}
+.page-hero-inner{max-width:720px;margin:0 auto;padding:0 24px}
+.breadcrumb{display:flex;align-items:center;gap:8px;
+  font-size:13px;color:var(--i4);margin-bottom:20px;font-weight:500}
+.breadcrumb a{color:var(--i4);font-weight:500;text-decoration:none;transition:color .15s}
+.breadcrumb a:hover{color:var(--ink)}
+.breadcrumb-sep{color:var(--line)}
+.page-hero h1{font-family:'Fraunces',serif;font-size:clamp(30px,5vw,44px);
+  font-weight:800;margin-bottom:14px;letter-spacing:-.025em;color:var(--ink)}
+.page-hero-sub{font-size:16px;color:var(--i3);line-height:1.65;margin-bottom:24px}
+.meta-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.meta-item{display:flex;align-items:center;gap:7px;
+  font-size:13px;font-weight:600;color:var(--i3)}
+.meta-item svg{width:14px;height:14px;stroke:var(--i3);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.meta-divider{width:1px;height:14px;background:var(--line)}
+
+/* LAYOUT */
+.page-body{padding:56px 24px 80px}
+.page-grid{display:grid;grid-template-columns:200px 1fr;gap:56px;max-width:1080px;margin:0 auto;align-items:start}
+
+/* Sticky sidebar */
+.sidebar{position:sticky;top:84px}
+.sidebar-title{font-size:11px;font-weight:800;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--i4);margin-bottom:14px}
+.toc{display:flex;flex-direction:column;gap:2px}
+.toc-item{display:block;padding:7px 12px;border-radius:8px;
+  font-size:13px;font-weight:600;color:var(--i3);transition:all .15s;text-decoration:none}
+.toc-item:hover{background:var(--bg2);color:var(--ink);text-decoration:none}
+.toc-item.active{background:var(--rs);color:var(--red)}
+.sidebar-cta{margin-top:24px;padding-top:24px;border-top:1px solid var(--line)}
+.sidebar-cta p{font-size:12px;color:var(--i4);margin-bottom:12px;line-height:1.5}
+.sidebar-cta-btn{display:flex;align-items:center;justify-content:center;gap:6px;
+  width:100%;height:40px;background:var(--red);color:white;border:none;
+  border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:13px;font-weight:700;cursor:pointer;transition:background .15s;text-decoration:none}
+.sidebar-cta-btn:hover{background:var(--rh);text-decoration:none}
+
+/* Content */
+.policy-content{min-width:0}
+.policy-section{margin-bottom:48px;padding-bottom:48px;border-bottom:1px solid var(--line)}
+.policy-section:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.section-num{display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--red);margin-bottom:10px}
+.section-num::after{content:'';display:inline-block;width:24px;height:1.5px;background:rgba(220,38,38,.3)}
+.policy-section h2{font-family:'Fraunces',serif;font-size:clamp(20px,3vw,26px);
+  font-weight:800;margin-bottom:16px;color:var(--ink);letter-spacing:-.02em}
+.policy-section p{font-size:15px;color:var(--i2);line-height:1.75;margin-bottom:14px}
+.policy-section p:last-child{margin-bottom:0}
+.policy-section ul,.policy-section ol{margin:14px 0 14px 20px}
+.policy-section li{font-size:15px;color:var(--i2);line-height:1.75;margin-bottom:8px}
+.policy-section li:last-child{margin-bottom:0}
+.policy-section strong{font-weight:700;color:var(--ink)}
+
+/* Callout boxes */
+.callout{border-radius:10px;padding:16px 18px;margin:18px 0;display:flex;gap:12px;align-items:flex-start}
+.callout svg{width:18px;height:18px;flex-shrink:0;margin-top:1px;
+  fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.callout-body{flex:1}
+.callout-body strong{display:block;font-size:13px;font-weight:800;margin-bottom:4px;letter-spacing:.2px}
+.callout-body p{font-size:14px;line-height:1.65;margin:0 !important}
+.callout.green{background:var(--gs);border:1.5px solid rgba(22,163,74,.2)}
+.callout.green svg{stroke:var(--green)}
+.callout.green .callout-body strong{color:var(--green)}
+.callout.green .callout-body p{color:#166534}
+.callout.amber{background:#FFFBEB;border:1.5px solid rgba(217,119,6,.2)}
+.callout.amber svg{stroke:#D97706}
+.callout.amber .callout-body strong{color:#D97706}
+.callout.amber .callout-body p{color:#78350F}
+.callout.red{background:var(--rs);border:1.5px solid rgba(220,38,38,.2)}
+.callout.red svg{stroke:var(--red)}
+.callout.red .callout-body strong{color:var(--red)}
+.callout.red .callout-body p{color:#7F1D1D}
+
+/* Data table */
+.data-table{width:100%;border-collapse:collapse;margin:18px 0;border-radius:10px;overflow:hidden;border:1.5px solid var(--line)}
+.data-table th{background:var(--bg2);text-align:left;padding:12px 16px;
+  font-size:12px;font-weight:800;color:var(--i3);letter-spacing:.5px;text-transform:uppercase;
+  border-bottom:1.5px solid var(--line)}
+.data-table td{padding:12px 16px;font-size:14px;color:var(--i2);
+  border-bottom:1px solid var(--line);vertical-align:top;line-height:1.6}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:nth-child(even) td{background:var(--bg2)}
+.tag{display:inline-block;padding:2px 8px;border-radius:4px;
+  font-size:11px;font-weight:700;letter-spacing:.3px}
+.tag-green{background:var(--gs);color:var(--green);border:1px solid rgba(22,163,74,.2)}
+.tag-red{background:var(--rs);color:var(--red);border:1px solid rgba(220,38,38,.2)}
+.tag-gray{background:var(--bg2);color:var(--i3);border:1px solid var(--line)}
+
+/* Contact card */
+.contact-card{background:white;border:1.5px solid var(--line);border-radius:12px;padding:24px;display:flex;gap:16px;align-items:flex-start;margin-top:20px}
+.contact-card-icon{width:44px;height:44px;border-radius:10px;background:var(--rs);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.contact-card-icon svg{width:20px;height:20px;stroke:var(--red);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.contact-card h3{font-size:15px;font-weight:700;margin-bottom:4px}
+.contact-card p{font-size:14px;color:var(--i3);line-height:1.6;margin:0}
+.contact-card a{color:var(--red);font-weight:700}
+
+/* Footer */
+footer{background:#0F172A;padding:32px 0 24px;border-top:1px solid rgba(255,255,255,.06)}
+.foot-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.foot-inner p{font-size:13px;color:rgba(255,255,255,.3)}
+.foot-links{display:flex;gap:20px}
+.foot-links a{font-size:13px;color:rgba(255,255,255,.4);text-decoration:none;transition:color .15s;font-weight:500}
+.foot-links a:hover{color:white}
+.foot-disc{font-size:12px;color:rgba(255,255,255,.2);font-style:italic;margin-top:8px;width:100%}
+
+/* Print styles */
+@media print{
+  #nav,.sidebar,.sidebar-cta,footer{display:none}
+  .page-grid{grid-template-columns:1fr}
+  .page-body{padding:20px 0}
+  .policy-section{break-inside:avoid}
+}
+
+/* Responsive */
+@media(max-width:768px){
+  .page-grid{grid-template-columns:1fr}
+  .sidebar{position:static;display:none}
+  .nav-right .btn-back{display:none}
+}
+@media(max-width:480px){
+  .meta-row{flex-direction:column;align-items:flex-start;gap:8px}
+  .meta-divider{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header>
+<nav id="nav">
+  <div class="container">
+    <div class="nav-in">
+      <a class="logo" href="/" aria-label="Cardio Scanner Home">
+        <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg></div>
+        <span class="logo-name">Cardio<span>Scanner</span></span>
+      </a>
+      <div class="nav-right">
+        <a href="index.html" class="btn-back">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Back to Home
+        </a>
+        <a href="/#scan" class="btn-scan">Check My Heart Risk</a>
+      </div>
+    </div>
+  </div>
+</nav>
+</header>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="breadcrumb">
+      <a href="/">Home</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>Privacy Policy</span>
+    </div>
+    <h1>Privacy Policy</h1>
+    <p class="page-hero-sub">We built CardioScanner to help people, not to collect their data. This page explains exactly what we do — and don't do — with any information related to your use of this tool.</p>
+    <div class="meta-row">
+      <div class="meta-item">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Last updated: March 20, 2026
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-item">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Effective immediately
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-item">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Educational tool — not a medical service
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="page-body">
+  <div class="page-grid">
+
+    <!-- SIDEBAR TOC -->
+    <aside class="sidebar" aria-label="Table of contents">
+      <div class="sidebar-title">On This Page</div>
+      <nav class="toc" aria-label="Privacy policy sections">
+        <a class="toc-item active" href="#overview">Overview</a>
+        <a class="toc-item" href="#data-collection">What We Collect</a>
+        <a class="toc-item" href="#health-data">Your Health Data</a>
+        <a class="toc-item" href="#cookies">Cookies</a>
+        <a class="toc-item" href="#third-parties">Third Parties</a>
+        <a class="toc-item" href="#your-rights">Your Rights</a>
+        <a class="toc-item" href="#children">Children</a>
+        <a class="toc-item" href="#medical-disclaimer">Medical Disclaimer</a>
+        <a class="toc-item" href="#changes">Policy Changes</a>
+        <a class="toc-item" href="#contact">Contact Us</a>
+      </nav>
+      <div class="sidebar-cta">
+        <p>Ready to check your heart risk?</p>
+        <a href="/#scan" class="sidebar-cta-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
+          Start Free Scan
+        </a>
+      </div>
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="policy-content" aria-label="Privacy policy content">
+
+      <!-- 1. OVERVIEW -->
+      <section class="policy-section" id="overview" aria-labelledby="overview-h">
+        <div class="section-num">01</div>
+        <h2 id="overview-h">Overview</h2>
+        <p>CardioScanner ("we", "our", or "the tool") is a free, educational AI-powered cardiovascular risk screening tool developed by <strong>Eddala Naveen Kumar</strong>, a B.E. student in Artificial Intelligence & Data Science at <strong>Prathyusha Engineering College</strong>, Thiruvallur — as part of an academic project (241ALC401T — Machine Learning).</p>
+        <p>This Privacy Policy explains how we handle information when you use this website at <a href="https://cardioscaner.netlify.app" target="_blank" rel="noopener">cardioscaner.netlify.app</a>.</p>
+
+        <div class="callout green">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <div class="callout-body">
+            <strong>The Short Version</strong>
+            <p>The clinical values you enter into the scan form are <strong>never stored, never logged, and never shared</strong>. They are used only to generate your risk score and are discarded immediately after.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. DATA COLLECTION -->
+      <section class="policy-section" id="data-collection" aria-labelledby="data-h">
+        <div class="section-num">02</div>
+        <h2 id="data-h">What We Collect</h2>
+        <p>We collect minimal data. Here is a complete breakdown:</p>
+
+        <table class="data-table" aria-label="Data collection overview">
+          <thead>
+            <tr>
+              <th>Data Type</th>
+              <th>Collected?</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Scan inputs</strong><br/><span style="font-size:12px;color:var(--i4)">Age, chest pain, heart rate, etc.</span></td>
+              <td><span class="tag tag-red">Not stored</span></td>
+              <td>Used only for the instant prediction API call. Discarded immediately after.</td>
+            </tr>
+            <tr>
+              <td><strong>IP address</strong></td>
+              <td><span class="tag tag-gray">May be logged</span></td>
+              <td>Netlify (our hosting provider) may log IP addresses for security and abuse prevention. We do not access or analyse these.</td>
+            </tr>
+            <tr>
+              <td><strong>Page views</strong></td>
+              <td><span class="tag tag-gray">Anonymous</span></td>
+              <td>If Google Analytics is enabled, anonymous page view counts are recorded. No personal data is linked.</td>
+            </tr>
+            <tr>
+              <td><strong>Early access email</strong></td>
+              <td><span class="tag tag-green">Only if submitted</span></td>
+              <td>If you voluntarily submit your email for early access, we store it securely to notify you when new features launch. You can request deletion at any time.</td>
+            </tr>
+            <tr>
+              <td><strong>Name / identity</strong></td>
+              <td><span class="tag tag-red">Never collected</span></td>
+              <td>We do not ask for, collect, or store any personally identifying information to use the scan tool.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- 3. HEALTH DATA -->
+      <section class="policy-section" id="health-data" aria-labelledby="health-h">
+        <div class="section-num">03</div>
+        <h2 id="health-h">Your Health Data</h2>
+        <p>The clinical parameters you enter — including age, chest pain type, heart rate, ST depression, number of blocked vessels, and thalassemia type — are considered <strong>sensitive health information</strong>. We treat them with the highest level of care.</p>
+
+        <div class="callout green">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          <div class="callout-body">
+            <strong>We do not store your health inputs — ever</strong>
+            <p>When you click "Analyse My Heart Risk", your values are sent over an encrypted HTTPS connection to our prediction API. The API returns a risk score and immediately discards all inputs. Nothing is written to any database, file, or log.</p>
+          </div>
+        </div>
+
+        <p>Specifically, we do <strong>not</strong>:</p>
+        <ul>
+          <li>Store your clinical values in any database</li>
+          <li>Link your health data to your IP address or any identifier</li>
+          <li>Share your health data with any third party, advertiser, or research institution</li>
+          <li>Use your health data to train or update our AI model</li>
+          <li>Sell or monetise your health data in any form</li>
+        </ul>
+
+        <div class="callout amber">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <div class="callout-body">
+            <strong>Early Access Email</strong>
+            <p>If you voluntarily submit your email address via the early access form, that email address is stored securely and used only to notify you about future feature launches. It is never shared, sold, or used for marketing beyond CardioScanner communications.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. COOKIES -->
+      <section class="policy-section" id="cookies" aria-labelledby="cookies-h">
+        <div class="section-num">04</div>
+        <h2 id="cookies-h">Cookies &amp; Analytics</h2>
+        <p>CardioScanner may use the following cookies and tracking technologies:</p>
+        <ul>
+          <li><strong>Google Analytics (optional):</strong> If enabled, Google Analytics collects anonymous data about page views, session duration, device type, and geographic region. This data is aggregated and cannot be used to identify you personally. You can opt out using the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">Google Analytics Opt-Out Browser Add-On</a>.</li>
+          <li><strong>Netlify:</strong> Our hosting provider, Netlify, may set technical cookies necessary for website delivery and security. These are not used for advertising.</li>
+          <li><strong>No advertising cookies:</strong> We do not use Facebook Pixel, ad retargeting, or any third-party advertising cookies. If ads are added in future, this policy will be updated before they go live.</li>
+        </ul>
+        <p>You can control cookie settings through your browser preferences. Disabling cookies will not affect the core scan functionality of this tool.</p>
+      </section>
+
+      <!-- 5. THIRD PARTIES -->
+      <section class="policy-section" id="third-parties" aria-labelledby="third-h">
+        <div class="section-num">05</div>
+        <h2 id="third-h">Third-Party Services</h2>
+        <p>CardioScanner relies on the following third-party services to operate:</p>
+
+        <table class="data-table" aria-label="Third party services">
+          <thead>
+            <tr>
+              <th>Service</th>
+              <th>Purpose</th>
+              <th>Data Shared</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Netlify</strong></td>
+              <td>Frontend hosting and delivery</td>
+              <td>IP address (for CDN routing &amp; security). <a href="https://www.netlify.com/privacy/" target="_blank" rel="noopener">View policy →</a></td>
+            </tr>
+            <tr>
+              <td><strong>Render</strong></td>
+              <td>Backend prediction API hosting</td>
+              <td>The clinical values you submit are processed here. No persistent storage. <a href="https://render.com/privacy" target="_blank" rel="noopener">View policy →</a></td>
+            </tr>
+            <tr>
+              <td><strong>Google Analytics</strong></td>
+              <td>Anonymous usage statistics</td>
+              <td>Anonymous page views, device type, geography. No health data. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">View policy →</a></td>
+            </tr>
+            <tr>
+              <td><strong>Google Fonts</strong></td>
+              <td>Typography</td>
+              <td>Your IP address may be logged by Google when fonts are loaded. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">View policy →</a></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>We do not sell, rent, or trade any user data to any third party for commercial purposes.</p>
+      </section>
+
+      <!-- 6. YOUR RIGHTS -->
+      <section class="policy-section" id="your-rights" aria-labelledby="rights-h">
+        <div class="section-num">06</div>
+        <h2 id="rights-h">Your Rights</h2>
+        <p>Depending on your location, you may have the following rights regarding your personal data:</p>
+        <ul>
+          <li><strong>Right to access:</strong> You can request a copy of any personal data we hold about you (this only applies to voluntarily submitted email addresses).</li>
+          <li><strong>Right to deletion:</strong> You can request that your email address be removed from our early access list at any time by emailing us.</li>
+          <li><strong>Right to withdraw consent:</strong> If you have submitted your email, you can unsubscribe from any future communications at any time.</li>
+          <li><strong>Right to object:</strong> You can opt out of Google Analytics tracking using the browser add-on linked above.</li>
+        </ul>
+        <p>Since we do not collect, store, or process any health data beyond the instant prediction call, there is no health data to access, correct, or delete.</p>
+        <p>To exercise any of these rights, contact us at <a href="mailto:eddalanaveenkumar@gmail.com">eddalanaveenkumar@gmail.com</a>.</p>
+      </section>
+
+      <!-- 7. CHILDREN -->
+      <section class="policy-section" id="children" aria-labelledby="children-h">
+        <div class="section-num">07</div>
+        <h2 id="children-h">Children's Privacy</h2>
+        <p>CardioScanner is not directed at children under the age of 13. We do not knowingly collect any personal information from children. If you are a parent or guardian and believe your child has submitted personal information through this site, please contact us immediately at <a href="mailto:eddalanaveenkumar@gmail.com">eddalanaveenkumar@gmail.com</a> and we will delete it promptly.</p>
+        <p>The scan tool may be used by individuals of any age for educational purposes, but the health risk results are most relevant to adults aged 20 and above.</p>
+      </section>
+
+      <!-- 8. MEDICAL DISCLAIMER -->
+      <section class="policy-section" id="medical-disclaimer" aria-labelledby="medical-h">
+        <div class="section-num">08</div>
+        <h2 id="medical-h">Medical Disclaimer</h2>
+
+        <div class="callout red">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <div class="callout-body">
+            <strong>This is not a medical service</strong>
+            <p>CardioScanner is an educational screening tool only. It does not constitute medical advice, diagnosis, or treatment. Always seek the advice of a qualified physician or cardiologist with any questions you may have regarding a medical condition.</p>
+          </div>
+        </div>
+
+        <p>Specifically:</p>
+        <ul>
+          <li>A <strong>Low risk</strong> result does not mean you are free of heart disease. It means the parameters entered are consistent with a lower-risk profile based on the training dataset.</li>
+          <li>A <strong>High risk</strong> result does not mean you will have a heart attack. It means the parameters are consistent with a higher-risk profile and should be discussed with a cardiologist promptly.</li>
+          <li>This tool was trained on the <strong>UCI Heart Disease Cleveland Dataset</strong> (303 patients). Its accuracy and generalisability may vary across different populations, demographics, and clinical settings.</li>
+          <li>Never delay seeking professional medical advice because of something you read or saw on this website.</li>
+        </ul>
+        <p>If you are experiencing chest pain, shortness of breath, or any symptoms of a cardiac emergency, <strong>call emergency services immediately (112 in India, 911 in the US)</strong>. Do not use this tool in an emergency.</p>
+      </section>
+
+      <!-- 9. POLICY CHANGES -->
+      <section class="policy-section" id="changes" aria-labelledby="changes-h">
+        <div class="section-num">09</div>
+        <h2 id="changes-h">Changes to This Policy</h2>
+        <p>We may update this Privacy Policy from time to time to reflect changes in our practices, technology, or legal requirements. When we make significant changes, we will update the "Last updated" date at the top of this page.</p>
+        <p>We encourage you to review this policy periodically. Continued use of CardioScanner after any changes constitutes your acceptance of the updated policy.</p>
+        <p>If we ever introduce new data collection practices — for example, user accounts or advertising — this policy will be updated <strong>before</strong> those practices take effect, not after.</p>
+      </section>
+
+      <!-- 10. CONTACT -->
+      <section class="policy-section" id="contact" aria-labelledby="contact-h">
+        <div class="section-num">10</div>
+        <h2 id="contact-h">Contact Us</h2>
+        <p>If you have any questions about this Privacy Policy, want to exercise your data rights, or have a concern about how your data is being handled, please reach out:</p>
+
+        <div class="contact-card">
+          <div class="contact-card-icon">
+            <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <div>
+            <h3>Eddala Naveen Kumar</h3>
+            <p>
+              B.E. — Artificial Intelligence &amp; Data Science<br/>
+              Prathyusha Engineering College, Thiruvallur 602025<br/>
+              Registration No: 111424148021<br/>
+              Email: <a href="mailto:eddalanaveenkumar@gmail.com">eddalanaveenkumar@gmail.com</a>
+            </p>
+          </div>
+        </div>
+
+        <p style="margin-top:20px">We aim to respond to all privacy-related requests within <strong>7 business days</strong>.</p>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="foot-inner">
+      <p>© 2026 CardioScanner · Eddala Naveen Kumar · Prathyusha Engineering College</p>
+      <div class="foot-links">
+        <a href="/">Home</a>
+        <a href="/#scan">Free Scan</a>
+        <a href="/#faq">FAQ</a>
+        <a href="mailto:eddalanaveenkumar@gmail.com">Contact</a>
+      </div>
+    </div>
+    <div class="foot-disc">Not a medical diagnosis tool. For educational screening only. Always consult a qualified cardiologist.</div>
+  </div>
+</footer>
+
+<script>
+// Active TOC highlighting on scroll
+const sections = document.querySelectorAll('.policy-section[id]');
+const tocItems = document.querySelectorAll('.toc-item');
+
+const sectionObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.getAttribute('id');
+      tocItems.forEach(item => {
+        item.classList.toggle('active', item.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+sections.forEach(s => sectionObs.observe(s));
+
+// Smooth scroll for TOC links
+tocItems.forEach(item => {
+  item.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(item.getAttribute('href'));
+    if (target) {
+      const offset = 84;
+      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  });
+});
+</script>
+</body>
+</html>

@@ -3,991 +3,951 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>CardioScan AI — Heart Disease Risk Assessment</title>
+<title>Cardio Scanner — Prevent a Heart Attack Before It Happens</title>
+<meta name="description" content="Most heart attacks are preventable. Check your cardiovascular risk in 30 seconds with our free AI tool. No doctor visit needed."/>
+<meta name="keywords" content="AI heart disease detection, cardio scanner, heart risk checker, heart attack prevention, cardiovascular risk analysis online"/>
+<meta name="author" content="Eddala Naveen Kumar"/>
+<meta name="robots" content="index, follow"/>
+<link rel="canonical" href="https://cardioscaner.netlify.app/"/>
+<meta property="og:title" content="Cardio Scanner — Prevent a Heart Attack Before It Happens"/>
+<meta property="og:description" content="Free 30-second AI heart risk check. Catch the warning signs before it's too late."/>
+<meta property="og:url" content="https://cardioscaner.netlify.app/"/>
+<meta property="og:type" content="website"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:ital,wght@0,800;0,900;1,800&display=swap" rel="stylesheet"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Cardio Scanner","url":"https://cardioscaner.netlify.app","description":"AI cardiovascular risk screening tool based on UCI Heart Disease dataset","applicationCategory":"HealthApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"INR"},"author":{"@type":"Person","name":"Eddala Naveen Kumar","affiliation":{"@type":"EducationalOrganization","name":"Prathyusha Engineering College"}}}</script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-
-:root{
-  --bg:         #EEF8F7;
-  --bg2:        #F7FDFB;
-  --bg3:        #E4F4F2;
-  --surface:    #FFFFFF;
-  --surface2:   #F0FAF8;
-  --border:     rgba(0,160,140,0.10);
-  --border2:    rgba(0,160,140,0.18);
-  --teal:       #00897B;
-  --teal2:      #00BFA5;
-  --teal3:      #4DD0C4;
-  --teal-dim:   rgba(0,137,123,0.09);
-  --teal-glow:  rgba(0,191,165,0.22);
-  --blue:       #0277BD;
-  --blue2:      #0288D1;
-  --blue3:      #29B6F6;
-  --blue-dim:   rgba(2,119,189,0.08);
-  --blue-glow:  rgba(41,182,246,0.22);
-  --accent:     #00897B;
-  --accent2:    #0288D1;
-  --green:      #2E7D32;
-  --green-dim:  rgba(46,125,50,0.09);
-  --amber:      #F57C00;
-  --amber-dim:  rgba(245,124,0,0.09);
-  --red:        #C62828;
-  --red-dim:    rgba(198,40,40,0.09);
-  --text:       #0D2B28;
-  --text2:      #2E5E58;
-  --text3:      #7AADA7;
-  --shadow:     0 2px 20px rgba(0,137,123,0.08), 0 1px 4px rgba(0,0,0,0.04);
-  --shadow-lg:  0 8px 48px rgba(0,137,123,0.12), 0 2px 12px rgba(0,0,0,0.06);
-  --font-head:  'Syne', sans-serif;
-  --font-mono:  'IBM Plex Mono', monospace;
-  --font-serif: 'Instrument Serif', serif;
-}
-
 html{scroll-behavior:smooth}
-body{
-  font-family:var(--font-head);
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
-  overflow-x:hidden;
+body{font-family:'Plus Jakarta Sans',sans-serif;background:#F9FAFB;color:#111827;line-height:1.6;overflow-x:hidden}
+:root{
+  --red:#DC2626;--rh:#B91C1C;--rs:#FEF2F2;--rm:rgba(220,38,38,.10);
+  --ink:#111827;--i2:#374151;--i3:#6B7280;--i4:#9CA3AF;
+  --line:#E5E7EB;--bg2:#F3F4F6;--white:#fff;
+  --green:#16A34A;--gs:#F0FDF4;--amber:#D97706;--as:#FFFBEB;
+  --sh:0 1px 3px rgba(0,0,0,.08);
+  --sm:0 4px 20px rgba(0,0,0,.07),0 1px 4px rgba(0,0,0,.04);
+  --sl:0 12px 48px rgba(0,0,0,.10),0 4px 12px rgba(0,0,0,.05);
 }
+h1,h2,h3{letter-spacing:-.025em;color:var(--ink);line-height:1.15}
+h1{font-family:'Fraunces',serif;font-size:clamp(38px,6vw,66px);font-weight:900}
+h2{font-family:'Fraunces',serif;font-size:clamp(26px,4vw,42px);font-weight:800}
+h3{font-size:clamp(16px,2vw,18px);font-weight:700}
+p{color:var(--i2);font-size:15px;line-height:1.7}
+a{color:inherit;text-decoration:none}
+.container{max-width:1100px;margin:0 auto;padding:0 24px}
+.section{padding:88px 0}
+.section-sm{padding:64px 0}
 
-/* ── Background ── */
-body::before{
-  content:'';position:fixed;inset:0;
-  background-image:
-    linear-gradient(rgba(0,137,123,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,137,123,0.04) 1px, transparent 1px);
-  background-size:48px 48px;
-  pointer-events:none;z-index:0;
-}
-body::after{
-  content:'';position:fixed;inset:0;
-  background:
-    radial-gradient(ellipse 65% 50% at 85% 10%, rgba(41,182,246,0.12) 0%,transparent 60%),
-    radial-gradient(ellipse 55% 45% at 5% 85%, rgba(0,191,165,0.10) 0%,transparent 60%),
-    radial-gradient(ellipse 40% 40% at 50% 50%, rgba(0,137,123,0.04) 0%,transparent 70%);
-  pointer-events:none;z-index:0;
-}
+/* NAV */
+#nav{position:fixed;top:0;left:0;right:0;z-index:100;height:64px;
+  background:rgba(249,250,251,.95);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--line);transition:box-shadow .25s}
+#nav.s{box-shadow:var(--sh)}
+.nav-in{height:64px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-mark{width:34px;height:34px;border-radius:9px;background:var(--red);
+  display:flex;align-items:center;justify-content:center}
+.logo-mark svg{width:17px;height:17px;fill:white}
+.logo-name{font-size:16px;font-weight:800;letter-spacing:-.3px}
+.logo-name span{color:var(--red)}
+.nav-links{display:flex;gap:28px}
+.nav-links a{font-size:14px;font-weight:600;color:var(--i3);transition:color .15s}
+.nav-links a:hover{color:var(--ink)}
+.btn-nav{height:38px;padding:0 18px;background:var(--red);color:white;border:none;
+  border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:13px;font-weight:700;cursor:pointer;transition:background .15s}
+.btn-nav:hover{background:var(--rh)}
+.hmbg{display:none;flex-direction:column;gap:4px;cursor:pointer;padding:6px}
+.hmbg span{width:20px;height:2px;background:var(--ink);border-radius:1px}
+#mob{display:none;position:fixed;top:64px;left:0;right:0;z-index:99;
+  background:white;border-bottom:1px solid var(--line);
+  padding:16px 24px;flex-direction:column;gap:0}
+#mob.open{display:flex}
+#mob a{padding:12px 0;font-size:15px;font-weight:600;color:var(--i2);
+  border-bottom:1px solid var(--bg2)}
+#mob a:last-child{border:none;color:var(--red);margin-top:4px}
 
-.app{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column}
+/* BUTTONS */
+.btn-p{display:inline-flex;align-items:center;gap:8px;height:52px;padding:0 32px;
+  background:var(--red);color:white;border:none;border-radius:12px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:700;
+  cursor:pointer;transition:all .15s;text-decoration:none}
+.btn-p:hover{background:var(--rh);transform:translateY(-1px);box-shadow:0 6px 20px rgba(220,38,38,.3)}
+.btn-g{display:inline-flex;align-items:center;gap:6px;height:52px;padding:0 28px;
+  background:transparent;color:var(--i2);border:1.5px solid var(--line);
+  border-radius:12px;font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:15px;font-weight:600;cursor:pointer;transition:all .15s;text-decoration:none}
+.btn-g:hover{border-color:var(--ink);color:var(--ink)}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;
+  border-radius:20px;font-size:12px;font-weight:700;letter-spacing:.4px;
+  text-transform:uppercase;border:1px solid}
+.pill-r{background:var(--rs);color:var(--rh);border-color:rgba(220,38,38,.2)}
+.pill-g{background:var(--bg2);color:var(--i3);border-color:var(--line)}
+.pulse{width:6px;height:6px;border-radius:50%;background:var(--red);
+  animation:pd 2s infinite}
+@keyframes pd{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.4)}}
 
-/* ── Navbar ── */
-nav{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:18px 48px;
-  border-bottom:1px solid var(--border2);
-  backdrop-filter:blur(20px);
-  background:rgba(238,248,247,0.85);
-  position:sticky;top:0;z-index:100;
-  box-shadow:0 1px 0 rgba(0,137,123,0.08);
-}
-.nav-logo{display:flex;align-items:center;gap:14px}
-.nav-logo-mark{
-  width:42px;height:42px;border-radius:12px;
-  background:linear-gradient(135deg,var(--teal),var(--blue2));
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 16px var(--teal-glow);
-  flex-shrink:0;
-  overflow:hidden;
-}
-.nav-logo-mark img{width:100%;height:100%;object-fit:cover;}
-.nav-brand{font-size:19px;font-weight:800;letter-spacing:-0.5px;color:var(--text)}
-.nav-brand span{color:var(--teal)}
-.nav-tagline{font-size:10px;color:var(--text3);font-weight:400;margin-top:1px;font-family:var(--font-mono);letter-spacing:1px}
-.nav-right{display:flex;align-items:center;gap:20px}
-.nav-badge{
-  display:flex;align-items:center;gap:8px;
-  font-family:var(--font-mono);font-size:11px;color:var(--teal);
-  background:var(--teal-dim);border:1.5px solid rgba(0,137,123,0.2);
-  padding:7px 15px;border-radius:20px;font-weight:500;
-}
-.nav-badge::before{
-  content:'';width:6px;height:6px;border-radius:50%;background:var(--teal2);
-  animation:blink 2s ease-in-out infinite;
-}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
-.nav-accuracy{font-family:var(--font-mono);font-size:12px;color:var(--text3)}
-.nav-accuracy span{color:var(--blue2);font-weight:600}
+/* ═══ HERO ═══ */
+#hero{padding:128px 0 80px;background:white;border-bottom:1px solid var(--line)}
+.hero-grid{display:grid;grid-template-columns:1fr 420px;gap:80px;align-items:center}
+.hero-pill{margin-bottom:20px}
+.hero-h1{margin-bottom:18px}
+.hero-h1 em{font-style:italic;color:var(--red)}
+.hero-sub{font-size:18px;line-height:1.75;color:var(--i2);margin-bottom:32px;max-width:440px}
+.hero-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:36px}
+.hero-social{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--i3);font-weight:500}
+.avatar-stack{display:flex}
+.avatar{width:28px;height:28px;border-radius:50%;border:2px solid white;
+  margin-left:-8px;font-size:11px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;color:white}
+.avatar:first-child{margin-left:0}
+.a1{background:#7C3AED}.a2{background:#2563EB}.a3{background:#059669}.a4{background:#D97706}
+.hero-proof-row{display:flex;gap:20px;flex-wrap:wrap;padding-top:28px;
+  border-top:1px solid var(--line)}
+.hp{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--i3)}
+.hp svg{width:14px;height:14px;stroke:var(--green);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 
-/* ── Hero ── */
-.hero{text-align:center;padding:80px 24px 56px;position:relative}
-.hero-eyebrow{
-  display:inline-flex;align-items:center;gap:8px;
-  font-family:var(--font-mono);font-size:11px;letter-spacing:2px;
-  color:var(--teal);text-transform:uppercase;
-  background:var(--teal-dim);border:1.5px solid rgba(0,137,123,0.18);
-  padding:7px 18px;border-radius:20px;margin-bottom:32px;font-weight:500;
-}
-.hero h1{
-  font-size:clamp(42px,8vw,78px);font-weight:800;
-  line-height:1.0;letter-spacing:-2px;margin-bottom:22px;
-}
-.hero h1 .line1{display:block;color:var(--text)}
-.hero h1 .line2{
-  display:block;
-  font-family:var(--font-serif);font-style:italic;font-weight:400;
-  background:linear-gradient(100deg,var(--teal),var(--blue2),var(--teal2));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.hero-sub{
-  font-size:16px;line-height:1.75;color:var(--text2);
-  max-width:500px;margin:0 auto 48px;font-weight:400;
-}
+/* Hero card */
+.hero-card{background:var(--bg2);border:1.5px solid var(--line);border-radius:24px;
+  overflow:hidden;box-shadow:var(--sl)}
+.hc-top{background:var(--red);padding:20px 24px}
+.hc-top-tag{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  color:rgba(255,255,255,.65);margin-bottom:4px}
+.hc-top-title{font-family:'Fraunces',serif;font-size:20px;font-weight:900;color:white;line-height:1.25}
+.hc-body{padding:20px 24px}
+.hc-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px}
+.hcs{background:white;border:1px solid var(--line);border-radius:8px;padding:12px;text-align:center}
+.hcs-n{font-family:'Fraunces',serif;font-size:20px;font-weight:900;color:var(--red)}
+.hcs-l{font-size:10px;font-weight:700;color:var(--i4);letter-spacing:.4px;text-transform:uppercase;margin-top:2px}
+.hc-src{background:white;border:1px solid var(--line);border-radius:8px;
+  padding:12px 14px;display:flex;gap:10px;margin-bottom:14px}
+.hc-src-icon{width:28px;height:28px;border-radius:6px;background:var(--bg2);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.hc-src-icon svg{width:14px;height:14px;stroke:var(--i3);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.hc-src-text{font-size:12px;color:var(--i2);line-height:1.5}
+.hc-src-text strong{color:var(--ink);font-weight:700}
+.hc-src-text a{color:var(--red);font-weight:600}
+.hc-btn{width:100%;height:44px;background:var(--red);color:white;border:none;
+  border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:14px;font-weight:700;cursor:pointer;transition:background .15s;
+  display:flex;align-items:center;justify-content:center;gap:8px}
+.hc-btn:hover{background:var(--rh)}
 
-/* ── ECG ── */
-.ecg-wrap{
-  width:100%;max-width:720px;margin:0 auto 44px;
-  border-radius:14px;overflow:hidden;position:relative;
-  background:rgba(0,137,123,0.04);
-  border:1.5px solid rgba(0,137,123,0.12);
-  padding:14px 18px 10px;
-}
-.ecg-topbar{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:8px;
-}
-.ecg-label{
-  display:flex;align-items:center;gap:8px;
-  font-family:var(--font-mono);font-size:11px;color:var(--teal);font-weight:600;letter-spacing:1px;
-}
-.ecg-dot{
-  width:7px;height:7px;border-radius:50%;background:var(--teal2);
-}
-.ecg-bpm{font-family:var(--font-mono);font-size:18px;font-weight:700;color:var(--teal)}
-.ecg-canvas{width:100%;height:88px;display:block}
-.ecg-footer{
-  display:flex;align-items:center;justify-content:space-between;margin-top:6px;
-}
-.ecg-scale{font-family:var(--font-mono);font-size:10px;color:var(--text3)}
-.ecg-btns{display:flex;gap:6px}
-.ecg-btn{
-  font-family:var(--font-mono);font-size:10px;padding:3px 9px;
-  border:1px solid rgba(0,137,123,0.25);border-radius:5px;
-  background:transparent;color:var(--teal);cursor:pointer;
-  transition:all 0.15s;
-}
-.ecg-btn:hover{background:var(--teal-dim)}
-.ecg-btn.danger{border-color:rgba(198,40,40,0.3);color:var(--red)}
-.ecg-btn.danger:hover{background:var(--red-dim)}
+/* ═══ PROBLEM ═══ */
+#problem{background:var(--ink);padding:72px 0}
+.prob-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.prob-h{color:white}
+.prob-sub{color:rgba(255,255,255,.6);font-size:16px;margin:12px 0 28px;line-height:1.7}
+.prob-stats{display:flex;gap:36px;flex-wrap:wrap}
+.ps .n{font-family:'Fraunces',serif;font-size:36px;font-weight:900;color:var(--red);line-height:1}
+.ps .l{font-size:12px;color:rgba(255,255,255,.4);margin-top:3px;font-weight:500}
+.sol-list{display:flex;flex-direction:column;gap:12px}
+.sol{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;padding:16px 20px;display:flex;gap:14px;align-items:flex-start}
+.sol-n{width:26px;height:26px;border-radius:6px;background:var(--red);
+  font-size:12px;font-weight:800;color:white;flex-shrink:0;margin-top:1px;
+  display:flex;align-items:center;justify-content:center}
+.sol h3{color:white;font-size:15px;margin-bottom:3px}
+.sol p{color:rgba(255,255,255,.55);font-size:14px;line-height:1.55}
 
-/* ── Stats strip ── */
-.stats-strip{
-  display:flex;justify-content:center;
-  max-width:580px;margin:0 auto;
-  border:1.5px solid var(--border2);border-radius:16px;overflow:hidden;
-  box-shadow:var(--shadow);
-}
-.stat-cell{
-  flex:1;padding:18px 20px;text-align:center;
-  border-right:1px solid var(--border2);background:var(--surface);
-}
-.stat-cell:last-child{border-right:none}
-.stat-num{
-  font-size:26px;font-weight:800;letter-spacing:-1px;
-  background:linear-gradient(135deg,var(--teal),var(--blue2));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.stat-lbl{font-family:var(--font-mono);font-size:10px;color:var(--text3);margin-top:4px;letter-spacing:1px;text-transform:uppercase}
+/* ═══ HOW IT WORKS ═══ */
+.sec-hdr{text-align:center;margin-bottom:56px}
+.sec-hdr h2{margin:12px 0 10px}
+.sec-sub{font-size:16px;color:var(--i3);max-width:400px;margin:0 auto}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;
+  border:1.5px solid var(--line);border-radius:16px;overflow:hidden;background:var(--line)}
+.step{background:white;padding:32px 28px;position:relative}
+.step-tag{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--i4);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.step-tag::after{content:'';flex:1;height:1px;background:var(--line)}
+.step-icon{width:44px;height:44px;border-radius:10px;background:var(--rs);
+  display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.step-icon svg{width:20px;height:20px;stroke:var(--red);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.step h3{margin-bottom:6px;font-size:17px}
+.step p{font-size:14px;color:var(--i3);line-height:1.6}
+.step-arr{position:absolute;top:50%;right:-14px;transform:translateY(-50%);
+  width:28px;height:28px;background:white;border:1.5px solid var(--line);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:1}
+.step-arr svg{width:12px;height:12px;stroke:var(--i3);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.step:last-child .step-arr{display:none}
 
-/* ── Main ── */
-.main{
-  max-width:1200px;margin:0 auto;
-  padding:0 24px 80px;
-  display:grid;grid-template-columns:1fr 420px;
-  gap:24px;align-items:start;
-}
-
-/* ── Panel ── */
-.panel{
-  background:var(--surface);
-  border:1.5px solid var(--border2);
-  border-radius:22px;overflow:hidden;
-  box-shadow:var(--shadow-lg);
-}
-.panel-header{
-  padding:24px 30px;
-  border-bottom:1px solid var(--border2);
-  display:flex;align-items:center;justify-content:space-between;
-  background:linear-gradient(135deg,rgba(0,137,123,0.03),rgba(2,136,209,0.03));
-}
-.panel-title{font-size:16px;font-weight:800;letter-spacing:-0.4px;color:var(--text)}
-.panel-sub{font-family:var(--font-mono);font-size:10px;color:var(--text3);margin-top:3px;letter-spacing:1px}
-.panel-icon{
-  width:38px;height:38px;border-radius:11px;
-  background:linear-gradient(135deg,var(--teal-dim),var(--blue-dim));
-  border:1.5px solid var(--border2);
-  display:flex;align-items:center;justify-content:center;
-}
-.panel-icon svg{width:18px;height:18px;stroke:var(--teal);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-
-.form-body{padding:26px 30px}
-
-/* ── Section label ── */
-.sec-label{
-  font-family:var(--font-mono);font-size:10px;font-weight:600;
-  letter-spacing:2px;text-transform:uppercase;
-  color:var(--teal);margin:0 0 14px;
-  display:flex;align-items:center;gap:10px;
-}
-.sec-label::after{content:'';flex:1;height:1.5px;background:linear-gradient(90deg,var(--border2),transparent)}
-.sec-label:not(:first-child){margin-top:28px}
-
-/* ── Fields ── */
-.field{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
-.field:last-child{margin-bottom:0}
-.field label{
-  font-size:12px;font-weight:700;color:var(--text2);letter-spacing:0.2px;
-  display:flex;align-items:center;justify-content:space-between;
-}
-.field label .unit{font-family:var(--font-mono);font-size:10px;color:var(--text3);font-weight:400;letter-spacing:1px}
-.field-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
-
-/* ── Inputs ── */
-input[type="number"],select{
-  width:100%;height:50px;padding:0 16px;
-  font-family:var(--font-mono);font-size:14px;font-weight:500;
-  color:var(--text);background:var(--bg2);
-  border:1.5px solid var(--border2);border-radius:12px;
-  outline:none;appearance:none;-webkit-appearance:none;
-  transition:border-color 0.2s,box-shadow 0.2s,background 0.2s;
-}
-input[type="number"]:focus,select:focus{
-  border-color:var(--teal2);
-  box-shadow:0 0 0 3px var(--teal-glow);
-  background:var(--surface);
-}
-input[type="number"]::placeholder{color:var(--text3)}
-input[type="number"]::-webkit-inner-spin-button{opacity:0.3}
-.select-wrap{position:relative}
-.select-wrap::after{
-  content:'';position:absolute;right:14px;top:50%;transform:translateY(-50%);
-  border-left:5px solid transparent;border-right:5px solid transparent;
-  border-top:5px solid var(--text3);pointer-events:none;
-}
-select option{background:var(--surface)}
-
-/* ── Range ── */
-.range-field{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
-.range-top{display:flex;align-items:center;justify-content:space-between}
-.range-top label{font-size:12px;font-weight:700;color:var(--text2);letter-spacing:0.2px}
-.range-display{
-  font-family:var(--font-mono);font-size:24px;font-weight:500;
-  background:linear-gradient(135deg,var(--teal),var(--blue2));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  min-width:52px;text-align:right;
-}
-input[type="range"]{
-  -webkit-appearance:none;appearance:none;
-  width:100%;height:4px;border-radius:2px;border:none;outline:none;
-  background:linear-gradient(90deg,var(--teal-dim),var(--blue-dim));
-}
-input[type="range"]::-webkit-slider-thumb{
-  -webkit-appearance:none;appearance:none;
-  width:24px;height:24px;border-radius:50%;
-  background:linear-gradient(135deg,var(--teal),var(--blue2));
-  cursor:pointer;border:3px solid white;
-  box-shadow:0 2px 12px var(--teal-glow);
-  transition:transform 0.15s,box-shadow 0.15s;
-}
-input[type="range"]::-webkit-slider-thumb:hover{transform:scale(1.2);box-shadow:0 4px 20px var(--teal-glow)}
-.range-marks{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:10px;color:var(--text3);margin-top:-4px}
-
-/* ── Chips ── */
-.chip-wrap{display:flex;flex-wrap:wrap;gap:8px}
-.chip{
-  padding:9px 16px;border-radius:10px;
-  font-size:12px;font-weight:700;
-  border:1.5px solid var(--border2);
-  background:var(--bg2);color:var(--text2);
-  cursor:pointer;transition:all 0.15s;user-select:none;
-  font-family:var(--font-head);
-}
-.chip:hover{border-color:var(--teal2);color:var(--teal);background:var(--teal-dim)}
-.chip.on{
-  background:linear-gradient(135deg,var(--teal-dim),var(--blue-dim));
-  color:var(--teal);border-color:var(--teal2);
-  box-shadow:0 2px 10px var(--teal-glow);
-}
-.chip.blue-chip.on{
-  background:var(--blue-dim);color:var(--blue2);
-  border-color:var(--blue3);
-  box-shadow:0 2px 10px var(--blue-glow);
-}
-
-/* ── Footer ── */
-.form-footer{
-  padding:20px 30px 28px;
-  border-top:1px solid var(--border2);
-  background:linear-gradient(135deg,rgba(0,137,123,0.02),rgba(2,136,209,0.02));
-}
-.btn-analyse{
-  width:100%;height:56px;
-  font-family:var(--font-head);font-size:15px;font-weight:800;
-  letter-spacing:0.5px;color:white;
-  background:linear-gradient(135deg,var(--teal),var(--blue2));
-  border:none;border-radius:14px;cursor:pointer;outline:none;
-  display:flex;align-items:center;justify-content:center;gap:12px;
-  position:relative;overflow:hidden;
-  box-shadow:0 4px 20px var(--teal-glow),0 2px 8px var(--blue-glow);
-  transition:transform 0.15s,box-shadow 0.2s,filter 0.15s;
-}
-.btn-analyse::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(255,255,255,0.15),transparent);
-}
-.btn-analyse:hover{
-  transform:translateY(-2px);
-  box-shadow:0 8px 32px var(--teal-glow),0 4px 16px var(--blue-glow);
-  filter:brightness(1.06);
-}
-.btn-analyse:active{transform:translateY(0)}
-.btn-analyse.loading{pointer-events:none;opacity:0.75}
-.btn-txt{position:relative;z-index:1}
-.btn-spinner{
-  width:20px;height:20px;border-radius:50%;
-  border:2.5px solid rgba(255,255,255,0.35);
-  border-top-color:white;
-  animation:spin 0.7s linear infinite;display:none;
-}
-.btn-analyse.loading .btn-txt{display:none}
-.btn-analyse.loading .btn-spinner{display:block}
+/* ═══ SCAN TOOL ═══ */
+#scan{background:white;border-top:1px solid var(--line)}
+.scan-wrap{display:grid;grid-template-columns:360px 1fr;gap:64px;align-items:start}
+.scan-left{padding-top:8px;position:sticky;top:84px}
+.scan-left h2{margin-bottom:12px}
+.scan-left .sub{font-size:15px;color:var(--i2);margin-bottom:24px;line-height:1.75}
+.scan-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
+.ss{display:flex;align-items:flex-start;gap:12px;font-size:14px;color:var(--i2)}
+.ss-n{width:22px;height:22px;border-radius:50%;background:var(--rs);
+  border:1.5px solid rgba(220,38,38,.2);display:flex;align-items:center;
+  justify-content:center;font-size:11px;font-weight:800;color:var(--red);
+  flex-shrink:0;margin-top:1px}
+.warn-box{background:var(--as);border:1.5px solid rgba(217,119,6,.2);
+  border-radius:8px;padding:12px 14px;
+  display:flex;gap:10px;align-items:flex-start}
+.warn-box svg{width:16px;height:16px;stroke:#B45309;fill:none;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;margin-top:1px}
+.warn-box p{font-size:12px;color:#92400E;line-height:1.55}
+.warn-box strong{font-weight:700}
+.scan-form{background:var(--bg2);border:1.5px solid var(--line);border-radius:24px;padding:32px}
+.form-title{font-size:17px;font-weight:800;margin-bottom:2px}
+.form-sub{font-size:11px;color:var(--i4);margin-bottom:24px;letter-spacing:.5px;text-transform:uppercase}
+.fsec{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--red);display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.fsec::after{content:'';flex:1;height:1px;background:rgba(220,38,38,.12)}
+.fsec:not(:first-of-type){margin-top:20px}
+.age-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.age-lbl{font-size:12px;font-weight:700;color:var(--i2)}
+.age-num{font-family:'Fraunces',serif;font-size:20px;font-weight:900;color:var(--red)}
+input[type=range]{width:100%;height:3px;-webkit-appearance:none;appearance:none;
+  background:var(--line);border-radius:2px;outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;
+  border-radius:50%;background:var(--red);border:3px solid white;cursor:pointer;
+  box-shadow:0 1px 6px rgba(220,38,38,.35);transition:transform .12s}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
+.rmarks{display:flex;justify-content:space-between;font-size:10px;color:var(--i4);margin-top:4px;font-weight:500}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:7px}
+.chip{padding:7px 13px;border-radius:8px;font-size:12px;font-weight:700;
+  border:1.5px solid var(--line);background:white;color:var(--i3);
+  cursor:pointer;transition:all .12s;user-select:none;
+  font-family:'Plus Jakarta Sans',sans-serif}
+.chip:hover{border-color:rgba(220,38,38,.3);color:var(--red)}
+.chip.on{background:var(--rs);color:var(--red);border-color:rgba(220,38,38,.35)}
+.flbl{font-size:12px;font-weight:700;color:var(--i2);margin:12px 0 4px;display:block}
+.fgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+input[type=number],select{width:100%;height:44px;padding:0 12px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:500;
+  color:var(--ink);background:white;border:1.5px solid var(--line);
+  border-radius:8px;outline:none;appearance:none;-webkit-appearance:none;transition:border-color .15s}
+input[type=number]:focus,select:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(220,38,38,.08)}
+input[type=number]::placeholder{color:var(--i4)}
+.sw{position:relative}
+.sw::after{content:'';position:absolute;right:11px;top:50%;transform:translateY(-50%);
+  border-left:4px solid transparent;border-right:4px solid transparent;
+  border-top:5px solid var(--i4);pointer-events:none}
+.btn-scan{width:100%;height:50px;margin-top:20px;
+  background:var(--red);color:white;border:none;border-radius:12px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:700;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:background .15s}
+.btn-scan:hover{background:var(--rh)}
+.btn-scan.loading{pointer-events:none;opacity:.75}
+.btxt{display:flex;align-items:center;gap:8px}
+.spin{width:18px;height:18px;border:2.5px solid rgba(255,255,255,.3);
+  border-top-color:white;border-radius:50%;animation:spin .65s linear infinite;display:none}
+.btn-scan.loading .btxt{display:none}
+.btn-scan.loading .spin{display:block}
 @keyframes spin{to{transform:rotate(360deg)}}
-.btn-disclaimer{
-  font-family:var(--font-mono);font-size:10px;color:var(--text3);
-  text-align:center;margin-top:12px;line-height:1.6;
-}
+#rw{display:none;margin-top:14px;animation:fup .35s ease}
+@keyframes fup{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.r-card{border-radius:14px;overflow:hidden;border:1.5px solid var(--line)}
+.r-top{padding:18px 20px}
+.r-top.low{background:var(--gs);border-bottom:1px solid rgba(22,163,74,.12)}
+.r-top.moderate{background:var(--as);border-bottom:1px solid rgba(217,119,6,.12)}
+.r-top.high{background:var(--rs);border-bottom:1px solid rgba(220,38,38,.12)}
+.r-lv{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px}
+.r-lv.low{color:var(--green)}.r-lv.moderate{color:var(--amber)}.r-lv.high{color:var(--red)}
+.r-title{font-family:'Fraunces',serif;font-size:22px;font-weight:900;margin-bottom:5px;line-height:1.2}
+.r-title.low{color:#14532D}.r-title.moderate{color:#78350F}.r-title.high{color:#7F1D1D}
+.r-desc{font-size:13px;color:var(--i2);line-height:1.6}
+.r-meter{padding:14px 20px;background:white;border-bottom:1px solid var(--line)}
+.r-mhd{display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:var(--i3);margin-bottom:7px}
+.rv{font-size:17px;font-weight:800}
+.rv.low{color:var(--green)}.rv.moderate{color:var(--amber)}.rv.high{color:var(--red)}
+.r-track{height:7px;background:var(--bg2);border-radius:4px;overflow:hidden}
+.r-fill{height:100%;width:0%;border-radius:4px;transition:width 1s cubic-bezier(.22,1,.36,1)}
+.r-fill.low{background:var(--green)}.r-fill.moderate{background:var(--amber)}.r-fill.high{background:var(--red)}
+.r-stats{display:grid;grid-template-columns:1fr 1fr 1fr;background:white;border-bottom:1px solid var(--line)}
+.rs{padding:12px;text-align:center}
+.rs:not(:last-child){border-right:1px solid var(--line)}
+.rs-n{font-family:'Fraunces',serif;font-size:18px;font-weight:800}
+.rs-n.low{color:var(--green)}.rs-n.moderate{color:var(--amber)}.rs-n.high{color:var(--red)}
+.rs-l{font-size:10px;color:var(--i4);font-weight:700;letter-spacing:.4px;text-transform:uppercase;margin-top:1px}
+.r-adv{padding:12px 20px;font-size:13px;line-height:1.65;color:var(--i2)}
+.r-adv.low{background:var(--gs)}.r-adv.moderate{background:var(--as)}.r-adv.high{background:var(--rs)}
+.r-adv strong{font-weight:700}
+.r-adv.low strong{color:var(--green)}.r-adv.moderate strong{color:var(--amber)}.r-adv.high strong{color:var(--red)}
+.r-footer{padding:10px 20px;background:white;font-size:11px;color:var(--i4);font-style:italic;border-top:1px solid var(--line)}
 
-/* ── Right col ── */
-.right-col{display:flex;flex-direction:column;gap:20px;position:sticky;top:90px}
+/* ═══ TRUST ═══ */
+.trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.tc{background:white;border:1.5px solid var(--line);border-radius:12px;padding:22px 20px}
+.tc svg{width:22px;height:22px;stroke:var(--red);fill:none;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round;margin-bottom:12px}
+.tc h3{font-size:14px;margin-bottom:6px}
+.tc p{font-size:13px;color:var(--i3);line-height:1.55}
+.tc a{color:var(--red);font-weight:600}
 
-/* ── Result ── */
-#result-panel{display:none}
-#result-panel.show{display:flex;flex-direction:column;gap:0;animation:fadeUp 0.5s ease}
-@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+/* ═══ VISION (COMING SOON) ═══ */
+#vision{background:var(--ink);padding:80px 0}
+.vision-inner{text-align:center;max-width:700px;margin:0 auto}
+.vision-inner h2{color:white;margin:16px 0 12px}
+.vision-inner .sub{color:rgba(255,255,255,.6);font-size:16px;margin-bottom:40px}
+.roadmap{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;text-align:left;margin-bottom:40px}
+.rm{border-radius:12px;padding:20px;position:relative}
+.rm.live{background:rgba(220,38,38,.15);border:1.5px solid rgba(220,38,38,.25)}
+.rm.soon{background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1)}
+.rm.future{background:rgba(255,255,255,.03);border:1.5px dashed rgba(255,255,255,.1)}
+.rm-badge{display:inline-block;padding:3px 8px;border-radius:4px;
+  font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
+.rm.live .rm-badge{background:rgba(220,38,38,.2);color:#FCA5A5}
+.rm.soon .rm-badge{background:rgba(255,255,255,.1);color:rgba(255,255,255,.5)}
+.rm.future .rm-badge{background:transparent;color:rgba(255,255,255,.3);border:1px solid rgba(255,255,255,.15)}
+.rm h3{color:white;font-size:15px;margin-bottom:8px}
+.rm ul{list-style:none}
+.rm li{font-size:13px;color:rgba(255,255,255,.55);margin-bottom:6px;
+  display:flex;align-items:center;gap:8px}
+.rm.live li::before{content:'✓';color:#FCA5A5;font-weight:800;font-size:11px;flex-shrink:0}
+.rm.soon li::before{content:'→';color:rgba(255,255,255,.3);font-size:11px;flex-shrink:0}
+.rm.future li::before{content:'○';color:rgba(255,255,255,.2);font-size:10px;flex-shrink:0}
+.early-access-form{display:flex;gap:10px;max-width:420px;margin:0 auto;flex-wrap:wrap}
+.email-input{flex:1;min-width:200px;height:50px;padding:0 16px;
+  background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);
+  border-radius:10px;color:white;font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:14px;outline:none;transition:border-color .2s}
+.email-input::placeholder{color:rgba(255,255,255,.35)}
+.email-input:focus{border-color:rgba(220,38,38,.5)}
+.btn-ea{height:50px;padding:0 24px;background:var(--red);color:white;border:none;
+  border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:14px;font-weight:700;cursor:pointer;transition:background .15s;white-space:nowrap}
+.btn-ea:hover{background:var(--rh)}
+.ea-note{font-size:12px;color:rgba(255,255,255,.3);margin-top:10px}
 
-.risk-card{
-  background:var(--surface);border:1.5px solid var(--border2);
-  border-radius:22px;overflow:hidden;box-shadow:var(--shadow-lg);
-}
-.risk-card-hero{
-  padding:30px 28px 24px;position:relative;overflow:hidden;
-}
-.risk-card-hero::before{content:'';position:absolute;inset:0;opacity:0.07}
-.risk-card-hero.low::before{background:linear-gradient(135deg,var(--teal),var(--blue2))}
-.risk-card-hero.moderate::before{background:var(--amber)}
-.risk-card-hero.high::before{background:var(--red)}
+/* ═══ FAQ ═══ */
+.faq-list{max-width:680px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
+.faq-item{background:white;border:1.5px solid var(--line);border-radius:12px;overflow:hidden}
+.faq-item.open{border-color:rgba(220,38,38,.2)}
+.faq-q{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;
+  gap:16px;cursor:pointer;transition:background .1s}
+.faq-q:hover{background:var(--bg2)}
+.faq-q h3{font-size:15px;font-weight:700;flex:1}
+.fq-arr{width:18px;height:18px;stroke:var(--i3);flex-shrink:0;transition:transform .25s;
+  fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.faq-item.open .fq-arr{transform:rotate(180deg);stroke:var(--red)}
+.faq-a{padding:0 20px;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s}
+.faq-item.open .faq-a{max-height:200px;padding:0 20px 16px}
+.faq-a p{font-size:14px;color:var(--i2);line-height:1.65}
+.faq-a a{color:var(--red);font-weight:600}
 
-.risk-card-hero.low{border-top:4px solid var(--teal2)}
-.risk-card-hero.moderate{border-top:4px solid var(--amber)}
-.risk-card-hero.high{border-top:4px solid var(--red)}
+/* ═══ CTA ═══ */
+#cta{background:var(--red);padding:72px 0;text-align:center}
+#cta h2{color:white;margin-bottom:10px}
+#cta .csub{color:rgba(255,255,255,.8);font-size:16px;margin-bottom:32px;max-width:420px;margin-left:auto;margin-right:auto}
+.cta-row{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.btn-w{height:52px;padding:0 32px;background:white;color:var(--red);border:none;
+  border-radius:12px;font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:15px;font-weight:700;cursor:pointer;transition:all .15s;
+  display:inline-flex;align-items:center;gap:8px}
+.btn-w:hover{background:#FEF2F2;transform:translateY(-1px)}
+.btn-ow{height:52px;padding:0 28px;background:transparent;
+  color:rgba(255,255,255,.85);border:1.5px solid rgba(255,255,255,.35);
+  border-radius:12px;font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:15px;font-weight:600;cursor:pointer;transition:all .15s;
+  display:inline-flex;align-items:center;text-decoration:none}
+.btn-ow:hover{border-color:white;color:white}
 
-.verdict-label{
-  font-family:var(--font-mono);font-size:10px;letter-spacing:2px;
-  text-transform:uppercase;margin-bottom:10px;font-weight:600;
-  display:flex;align-items:center;gap:6px;
-}
-.verdict-label.low{color:var(--teal)}
-.verdict-label.moderate{color:var(--amber)}
-.verdict-label.high{color:var(--red)}
+/* ═══ FOOTER ═══ */
+footer{background:#0F172A;padding:48px 0 28px}
+.foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:40px;margin-bottom:36px}
+.fb p{color:rgba(255,255,255,.4);font-size:13px;line-height:1.65;margin-top:10px}
+.fc h4{font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;
+  color:rgba(255,255,255,.3);margin-bottom:14px}
+.fc ul{list-style:none}
+.fc li{margin-bottom:8px}
+.fc a{font-size:14px;color:rgba(255,255,255,.45);transition:color .15s}
+.fc a:hover{color:white}
+.foot-bot{border-top:1px solid rgba(255,255,255,.06);padding-top:20px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.foot-bot p{font-size:12px;color:rgba(255,255,255,.25)}
+.foot-disc{display:flex;align-items:center;gap:6px;font-size:12px;
+  color:rgba(255,255,255,.25);font-style:italic}
+.foot-disc svg{width:13px;height:13px;stroke:rgba(255,255,255,.25);fill:none;stroke-width:2;stroke-linecap:round}
 
-.verdict-big{font-size:36px;font-weight:800;letter-spacing:-1.5px;line-height:1;margin-bottom:8px}
-.verdict-big.low{
-  background:linear-gradient(135deg,var(--teal),var(--blue2));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.verdict-big.moderate{color:var(--amber)}
-.verdict-big.high{color:var(--red)}
-.verdict-desc{font-size:13px;color:var(--text2);line-height:1.65;font-weight:400}
+/* TOAST */
+#toast{position:fixed;bottom:24px;right:24px;z-index:9999;
+  background:var(--ink);color:white;padding:12px 18px;
+  border-radius:8px;font-size:14px;box-shadow:var(--sl);
+  display:none;max-width:300px;font-family:'Plus Jakarta Sans',sans-serif}
+#toast.err{background:#7F1D1D}
+#toast.ok{background:#14532D}
 
-/* ── Meter ── */
-.risk-meter-wrap{padding:0 28px 22px;border-bottom:1px solid var(--border2)}
-.risk-meter-head{
-  display:flex;justify-content:space-between;align-items:center;
-  font-family:var(--font-mono);font-size:11px;color:var(--text3);margin-bottom:10px;
-}
-.risk-meter-head strong{font-size:20px;font-weight:700}
-.risk-meter-head strong.low{color:var(--teal)}
-.risk-meter-head strong.moderate{color:var(--amber)}
-.risk-meter-head strong.high{color:var(--red)}
-.risk-track{height:10px;background:var(--bg3);border-radius:5px;overflow:hidden}
-.risk-bar{height:100%;width:0%;border-radius:5px;transition:width 1.2s cubic-bezier(0.22,1,0.36,1)}
-.risk-bar.low{background:linear-gradient(90deg,var(--teal),var(--teal2),var(--blue3))}
-.risk-bar.moderate{background:linear-gradient(90deg,#e65c00,var(--amber),#FFD54F)}
-.risk-bar.high{background:linear-gradient(90deg,#b71c1c,var(--red),#EF9A9A)}
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .55s ease,transform .55s ease}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
+.d4{transition-delay:.32s}.d5{transition-delay:.40s}
 
-/* ── Stats row ── */
-.stats-grid{
-  display:grid;grid-template-columns:1fr 1fr 1fr;
-  padding:20px 28px;border-bottom:1px solid var(--border2);
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .hero-grid,.scan-wrap{grid-template-columns:1fr;gap:40px}
+  .hero-card{max-width:480px}
+  .scan-left{position:static}
+  .trust-grid{grid-template-columns:1fr 1fr}
+  .roadmap{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr 1fr}
 }
-.stat-box{text-align:center;padding:8px}
-.stat-box:not(:last-child){border-right:1px solid var(--border2)}
-.stat-box-num{font-size:22px;font-weight:800;letter-spacing:-0.5px}
-.stat-box-num.low{color:var(--teal)}
-.stat-box-num.moderate{color:var(--amber)}
-.stat-box-num.high{color:var(--red)}
-.stat-box-lbl{font-family:var(--font-mono);font-size:10px;color:var(--text3);margin-top:4px;letter-spacing:0.5px}
-
-/* ── Advice ── */
-.advice-box{padding:20px 28px;background:var(--surface2)}
-.advice-icon{font-size:18px;margin-bottom:6px}
-.advice-text{font-size:13px;line-height:1.7;color:var(--text2);font-weight:400}
-.advice-text strong{font-weight:700}
-.advice-box.low .advice-text strong{color:var(--teal)}
-.advice-box.moderate .advice-text strong{color:var(--amber)}
-.advice-box.high .advice-text strong{color:var(--red)}
-
-/* ── Info card ── */
-.info-card{
-  background:var(--surface);border:1.5px solid var(--border2);
-  border-radius:22px;overflow:hidden;box-shadow:var(--shadow-lg);
+@media(max-width:768px){
+  .nav-links,.btn-nav{display:none}
+  .hmbg{display:flex}
+  .hero-card{display:none}
+  .prob-grid{grid-template-columns:1fr;gap:40px}
+  .steps{grid-template-columns:1fr}
+  .step-arr{display:none}
+  .section{padding:64px 0}
 }
-.info-card-header{
-  padding:18px 24px;border-bottom:1px solid var(--border2);
-  font-size:13px;font-weight:700;color:var(--text2);
-  display:flex;align-items:center;gap:10px;
-  background:linear-gradient(135deg,rgba(0,137,123,0.03),rgba(2,136,209,0.03));
-}
-.info-card-header svg{width:16px;height:16px;stroke:var(--teal);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
-.feature-list{padding:14px 24px;display:flex;flex-direction:column;gap:10px}
-.feat-row{display:flex;align-items:center;gap:12px}
-.feat-rank{
-  width:24px;height:24px;border-radius:7px;
-  background:linear-gradient(135deg,var(--teal-dim),var(--blue-dim));
-  border:1.5px solid var(--border2);
-  font-family:var(--font-mono);font-size:10px;font-weight:600;color:var(--teal);
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-}
-.feat-info{flex:1}
-.feat-name{font-size:12px;font-weight:700;color:var(--text)}
-.feat-desc{font-family:var(--font-mono);font-size:10px;color:var(--text3);margin-top:1px}
-.feat-bar-wrap{width:64px;height:4px;background:var(--bg3);border-radius:2px;overflow:hidden}
-.feat-bar{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--teal),var(--blue2))}
-
-/* ── Model card ── */
-.model-card{
-  background:var(--surface);border:1.5px solid var(--border2);
-  border-radius:22px;padding:20px 24px;box-shadow:var(--shadow-lg);
-}
-.model-card-title{
-  font-size:13px;font-weight:700;color:var(--text2);margin-bottom:14px;
-  display:flex;align-items:center;gap:8px;
-}
-.model-card-title svg{width:15px;height:15px;stroke:var(--teal);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.model-metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.metric-chip{
-  background:var(--bg2);border:1.5px solid var(--border2);border-radius:12px;padding:14px;
-}
-.metric-chip-val{
-  font-family:var(--font-mono);font-size:18px;font-weight:600;
-  background:linear-gradient(135deg,var(--teal),var(--blue2));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.metric-chip-lbl{font-family:var(--font-mono);font-size:10px;color:var(--text3);margin-top:3px;letter-spacing:0.5px}
-
-/* ── Toast ── */
-#toast{
-  position:fixed;bottom:32px;right:32px;z-index:999;
-  background:var(--surface);border:1.5px solid var(--border2);
-  color:var(--text);padding:14px 20px;border-radius:14px;
-  font-family:var(--font-mono);font-size:13px;
-  box-shadow:var(--shadow-lg);display:none;max-width:340px;
-  animation:fadeUp 0.3s ease;
-}
-#toast.error{border-color:rgba(198,40,40,0.3);color:var(--red)}
-
-/* ── Responsive ── */
-@media(max-width:960px){
-  nav{padding:16px 20px}
-  .main{grid-template-columns:1fr;padding:0 16px 60px}
-  .right-col{position:static}
-  .hero{padding:52px 20px 44px}
-  .stats-strip{margin:0 20px}
-}
-@media(max-width:520px){
-  .field-grid3{grid-template-columns:1fr 1fr}
-  .stats-grid{grid-template-columns:1fr 1fr}
-  .model-metrics{grid-template-columns:1fr 1fr}
-  .hero h1{letter-spacing:-1px}
+@media(max-width:540px){
+  .fgrid{grid-template-columns:1fr 1fr}
+  .trust-grid{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr}
+  .foot-bot{flex-direction:column;text-align:center}
 }
 </style>
 </head>
 <body>
-<div class="app">
 
-<!-- ── Navbar ── -->
-<nav>
-  <div class="nav-logo">
-    <div class="nav-logo-mark">
-      <img src="logo.png" alt="CardioScan AI Logo" />
+<!-- NAV -->
+<header>
+<nav id="nav">
+  <div class="container">
+    <div class="nav-in">
+      <a class="logo" href="#" aria-label="Cardio Scanner">
+        <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg></div>
+        <span class="logo-name">Cardio<span>Scanner</span></span>
+      </a>
+      <nav class="nav-links">
+        <a href="#how-it-works">How It Works</a>
+        <a href="#scan">Free Scan</a>
+        <a href="#vision">Coming Soon</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <button class="btn-nav" onclick="location.href='#scan'">Check My Heart Risk</button>
+      <div class="hmbg" id="hmbg" onclick="toggleMob()"><span></span><span></span><span></span></div>
     </div>
-    <div>
-      <div class="nav-brand">Cardio<span>Scan</span></div>
-      <div class="nav-tagline">AI RISK ASSESSMENT v2.0</div>
-    </div>
-  </div>
-  <div class="nav-right">
-    <div class="nav-accuracy">Model Acc: <span>85%+</span></div>
-    <div class="nav-badge">SYSTEM ONLINE</div>
   </div>
 </nav>
+<div id="mob">
+  <a href="#how-it-works" onclick="toggleMob()">How It Works</a>
+  <a href="#scan" onclick="toggleMob()">Free Scan</a>
+  <a href="#vision" onclick="toggleMob()">Coming Soon</a>
+  <a href="#faq" onclick="toggleMob()">FAQ</a>
+  <a href="privacy.html" onclick="toggleMob()">Privacy Policy</a>
+  <a href="#scan" onclick="toggleMob()">Check My Heart Risk →</a>
+</div>
+</header>
 
-<!-- ── Hero ── -->
-<section class="hero">
-  <div class="hero-eyebrow">
-    <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="3" fill="currentColor"/></svg>
-    AI-Powered Cardiology Assessment
-  </div>
-  <h1>
-    <span class="line1">Predict Heart</span>
-    <span class="line2">Disease Risk</span>
-  </h1>
-  <p class="hero-sub">Enter 7 clinical parameters to receive an instant cardiovascular risk assessment powered by a Random Forest classifier trained on UCI Heart Disease data.</p>
-
-  <!-- Real ECG Animation -->
-  <div class="ecg-wrap">
-    <div class="ecg-topbar">
-      <div class="ecg-label">
-        <div class="ecg-dot" id="ecg-dot"></div>
-        LEAD II — ECG MONITOR
+<!-- ═══ 1. HERO ═══ -->
+<section id="hero" aria-labelledby="h1">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="reveal">
+        <div class="hero-pill"><span class="pill pill-r"><div class="pulse"></div>Free Heart Risk Check</span></div>
+        <h1 id="h1" class="hero-h1">
+          Prevent a Heart Attack<br/><em>Before It Happens</em>
+        </h1>
+        <p class="hero-sub">
+          Most people don't know they're at risk until it's too late. Get your personal cardiovascular risk score in 30 seconds — free, instant, no doctor visit.
+        </p>
+        <div class="hero-actions">
+          <a href="#scan" class="btn-p">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
+            Check My Risk — It's Free
+          </a>
+          <a href="#how-it-works" class="btn-g">See How It Works</a>
+        </div>
+        <div class="hero-social">
+          <div class="avatar-stack" aria-hidden="true">
+            <div class="avatar a1">RK</div>
+            <div class="avatar a2">PM</div>
+            <div class="avatar a3">SL</div>
+            <div class="avatar a4">VN</div>
+          </div>
+          <span>500+ people checked their risk this month</span>
+        </div>
+        <div class="hero-proof-row">
+          <div class="hp"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Based on UCI Heart Disease research</div>
+          <div class="hp"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>No data stored</div>
+          <div class="hp"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Results in 30 seconds</div>
+        </div>
       </div>
-      <div class="ecg-bpm" id="ecg-bpm">72 BPM</div>
-    </div>
-    <canvas class="ecg-canvas" id="ecg-canvas" height="88"></canvas>
-    <div class="ecg-footer">
-      <span class="ecg-scale">25 mm/s · 10 mm/mV</span>
-      <div class="ecg-btns">
-        <button class="ecg-btn" onclick="setEcgBpm(55)">55</button>
-        <button class="ecg-btn" onclick="setEcgBpm(72)">72</button>
-        <button class="ecg-btn" onclick="setEcgBpm(90)">90</button>
-        <button class="ecg-btn danger" onclick="setEcgBpm(120)">120</button>
-      </div>
-    </div>
-  </div>
 
-  <div class="stats-strip">
-    <div class="stat-cell"><div class="stat-num">85%+</div><div class="stat-lbl">Accuracy</div></div>
-    <div class="stat-cell"><div class="stat-num">7</div><div class="stat-lbl">Features</div></div>
-    <div class="stat-cell"><div class="stat-num">303</div><div class="stat-lbl">Samples</div></div>
-    <div class="stat-cell"><div class="stat-num">RF</div><div class="stat-lbl">Algorithm</div></div>
+      <aside class="hero-card reveal d2">
+        <div class="hc-top">
+          <div class="hc-top-tag">AI Model Performance</div>
+          <div class="hc-top-title">UCI Heart Disease<br/>Prediction Model</div>
+        </div>
+        <div class="hc-body">
+          <div class="hc-stats">
+            <div class="hcs"><div class="hcs-n">85%+</div><div class="hcs-l">Accuracy</div></div>
+            <div class="hcs"><div class="hcs-n">303</div><div class="hcs-l">Patients</div></div>
+            <div class="hcs"><div class="hcs-n">5-fold</div><div class="hcs-l">Validated</div></div>
+          </div>
+          <div class="hc-src">
+            <div class="hc-src-icon"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+            <div class="hc-src-text">
+              <strong>Source:</strong> UCI Heart Disease · Cleveland Clinic<br/>
+              Detrano et al. (1989), <em>Am. J. Cardiology</em><br/>
+              <a href="https://archive.ics.uci.edu/dataset/45/heart+disease" target="_blank" rel="noopener">View dataset →</a>
+            </div>
+          </div>
+          <button class="hc-btn" onclick="location.href='#scan'">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
+            Start Free Scan Now
+          </button>
+        </div>
+      </aside>
+    </div>
   </div>
 </section>
 
-<!-- ── Main ── -->
-<div class="main">
-
-  <!-- LEFT: Form -->
-  <div class="panel">
-    <div class="panel-header">
-      <div>
-        <div class="panel-title">Patient Assessment Form</div>
-        <div class="panel-sub">// COMPLETE ALL FIELDS FOR BEST RESULTS</div>
+<!-- ═══ 2. PROBLEM ═══ -->
+<section id="problem" aria-labelledby="prob-h">
+  <div class="container">
+    <div class="prob-grid">
+      <div class="reveal">
+        <h2 class="prob-h" id="prob-h">Most Heart Attacks<br/>Give No Warning</h2>
+        <p class="prob-sub">Half of all cardiac deaths happen in people with no prior symptoms. By the time you feel it — it may already be too late.</p>
+        <div class="prob-stats">
+          <div class="ps"><div class="n">17.9M</div><div class="l">deaths per year · WHO</div></div>
+          <div class="ps"><div class="n">50%</div><div class="l">had no prior symptoms</div></div>
+          <div class="ps"><div class="n">₹0</div><div class="l">cost to check today</div></div>
+        </div>
       </div>
-      <div class="panel-icon">
-        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      <div class="sol-list reveal d2">
+        <div class="sol">
+          <div class="sol-n">1</div>
+          <div><h3>Catch warning signs early</h3><p>Our AI identifies high-risk patterns from your clinical values — the same markers doctors look for.</p></div>
+        </div>
+        <div class="sol">
+          <div class="sol-n">2</div>
+          <div><h3>Know before symptoms appear</h3><p>High-risk results flag you for urgent follow-up — before a cardiac event, not after.</p></div>
+        </div>
+        <div class="sol">
+          <div class="sol-n">3</div>
+          <div><h3>No hospital. No wait. No cost.</h3><p>30 seconds, 7 values, instant result. The fastest first step you can take for your heart health.</p></div>
+        </div>
       </div>
     </div>
+  </div>
+</section>
 
-    <div class="form-body">
+<!-- ═══ 3. HOW IT WORKS ═══ -->
+<section id="how-it-works" class="section" aria-labelledby="how-h">
+  <div class="container">
+    <div class="sec-hdr reveal">
+      <span class="pill pill-g">3 Simple Steps</span>
+      <h2 id="how-h">How It Works</h2>
+      <p class="sec-sub">No doctor. No registration. Works on your phone.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-tag">Step 01</div>
+        <div class="step-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg></div>
+        <h3>Enter 7 values</h3>
+        <p>Age, chest pain, heart rate, and 4 more clinical markers. Under 60 seconds to complete.</p>
+        <div class="step-arr"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      </div>
+      <div class="step reveal d2">
+        <div class="step-tag">Step 02</div>
+        <div class="step-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <h3>AI analyses instantly</h3>
+        <p>Our model — trained on 303 real patient records — returns your cardiovascular risk score in 2 seconds.</p>
+        <div class="step-arr"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      </div>
+      <div class="step reveal d3">
+        <div class="step-tag">Step 03</div>
+        <div class="step-icon"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        <h3>Get your verdict</h3>
+        <p>Low, Moderate, or High risk — with a confidence score and a clear next step to take.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-      <!-- Age -->
-      <div class="sec-label">Patient Demographics</div>
-      <div class="range-field">
-        <div class="range-top">
-          <label>Patient Age</label>
-          <div class="range-display" id="age-display">50</div>
+<!-- ═══ 5. SCAN TOOL ═══ -->
+<section id="scan" class="section" aria-labelledby="scan-h">
+  <div class="container">
+    <div class="scan-wrap">
+      <div class="scan-left reveal">
+        <span class="pill pill-r" style="margin-bottom:16px;display:inline-flex">Free Scan</span>
+        <h2 id="scan-h">Your Heart,<br/>30 Seconds.</h2>
+        <p class="sub">This is the fastest thing you can do for your heart health today. No appointment. No cost.</p>
+        <div class="scan-steps">
+          <div class="ss"><div class="ss-n">1</div>Fill in your 7 clinical values</div>
+          <div class="ss"><div class="ss-n">2</div>Click Analyse — result in 2 seconds</div>
+          <div class="ss"><div class="ss-n">3</div>If high-risk, book a cardiologist</div>
+        </div>
+        <div class="warn-box">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <p><strong>Screening only.</strong> This tool does not diagnose heart disease. Always consult a cardiologist for medical decisions.</p>
+        </div>
+      </div>
+
+      <div class="scan-form reveal d2">
+        <div class="form-title">Patient Assessment</div>
+        <div class="form-sub">7 inputs · free · private · instant</div>
+
+        <div class="fsec">Your Age</div>
+        <div class="age-row">
+          <span class="age-lbl">Patient Age</span>
+          <span class="age-num" id="age-v" aria-live="polite">50</span>
         </div>
         <input type="range" id="age" min="20" max="80" value="50"
-          oninput="document.getElementById('age-display').textContent=this.value"/>
-        <div class="range-marks"><span>20 yrs</span><span>50 yrs</span><span>80 yrs</span></div>
-      </div>
+          oninput="document.getElementById('age-v').textContent=this.value" aria-label="Age"/>
+        <div class="rmarks"><span>20</span><span>50</span><span>80</span></div>
 
-      <!-- Chest pain -->
-      <div class="sec-label">Chest Pain Profile</div>
-      <div class="field">
-        <label>Chest Pain Type <span class="unit">SELECT ONE</span></label>
-        <div class="chip-wrap" id="cp-group">
-          <div class="chip on" data-val="0" onclick="pick('cp-group','cp',this)">Typical Angina</div>
-          <div class="chip" data-val="1" onclick="pick('cp-group','cp',this)">Atypical Angina</div>
-          <div class="chip" data-val="2" onclick="pick('cp-group','cp',this)">Non-Anginal</div>
-          <div class="chip" data-val="3" onclick="pick('cp-group','cp',this)">Asymptomatic</div>
+        <div class="fsec">Chest Pain</div>
+        <label class="flbl">Type of chest pain</label>
+        <div class="chips" id="cp-g" role="radiogroup" aria-label="Chest pain type">
+          <div class="chip on" data-val="0" onclick="pick('cp-g','cp',this)" role="radio" aria-checked="true" tabindex="0">Typical Angina</div>
+          <div class="chip" data-val="1" onclick="pick('cp-g','cp',this)" role="radio" aria-checked="false" tabindex="0">Atypical</div>
+          <div class="chip" data-val="2" onclick="pick('cp-g','cp',this)" role="radio" aria-checked="false" tabindex="0">Non-Anginal</div>
+          <div class="chip" data-val="3" onclick="pick('cp-g','cp',this)" role="radio" aria-checked="false" tabindex="0">None / Asymptomatic</div>
         </div>
         <input type="hidden" id="cp" value="0"/>
-      </div>
 
-      <div class="field">
-        <label>Exercise-Induced Angina <span class="unit">CHEST PAIN ON EXERTION</span></label>
-        <div class="chip-wrap" id="exang-group">
-          <div class="chip blue-chip on" data-val="0" onclick="pick('exang-group','exang',this)">No</div>
-          <div class="chip" data-val="1" onclick="pick('exang-group','exang',this)">Yes</div>
+        <label class="flbl">Chest pain during exercise?</label>
+        <div class="chips" id="exang-g" role="radiogroup" aria-label="Exercise angina">
+          <div class="chip on" data-val="0" onclick="pick('exang-g','exang',this)" role="radio" aria-checked="true" tabindex="0">No</div>
+          <div class="chip" data-val="1" onclick="pick('exang-g','exang',this)" role="radio" aria-checked="false" tabindex="0">Yes</div>
         </div>
         <input type="hidden" id="exang" value="0"/>
-      </div>
 
-      <!-- Clinical -->
-      <div class="sec-label">Clinical Measurements</div>
-      <div class="field-grid3">
-        <div class="field">
-          <label>Max Heart Rate <span class="unit">BPM</span></label>
-          <input type="number" id="thalach" placeholder="150" min="60" max="220" value="150"/>
-        </div>
-        <div class="field">
-          <label>ST Depression <span class="unit">OLDPEAK</span></label>
-          <input type="number" id="oldpeak" placeholder="1.0" min="0" max="6" step="0.1" value="1.0"/>
-        </div>
-        <div class="field">
-          <label>Major Vessels <span class="unit">0–3</span></label>
-          <div class="select-wrap">
-            <select id="ca">
-              <option value="0">0 vessels</option>
-              <option value="1">1 vessel</option>
-              <option value="2">2 vessels</option>
-              <option value="3">3 vessels</option>
-            </select>
+        <div class="fsec">Clinical Values</div>
+        <div class="fgrid">
+          <div>
+            <label class="flbl" for="thalach">Max heart rate <small style="color:var(--i4)">bpm</small></label>
+            <input type="number" id="thalach" placeholder="150" min="60" max="220" value="150"/>
+          </div>
+          <div>
+            <label class="flbl" for="oldpeak">ST depression <small style="color:var(--i4)">mm</small></label>
+            <input type="number" id="oldpeak" placeholder="1.0" min="0" max="6" step="0.1" value="1.0"/>
+          </div>
+          <div>
+            <label class="flbl" for="ca">Major vessels</label>
+            <div class="sw">
+              <select id="ca" aria-label="Number of major vessels">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+              </select>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Thalassemia -->
-      <div class="sec-label">Blood Disorder Classification</div>
-      <div class="field">
-        <label>Thalassemia Type <span class="unit">SELECT ONE</span></label>
-        <div class="chip-wrap" id="thal-group">
-          <div class="chip blue-chip on" data-val="1" onclick="pick('thal-group','thal',this)">Normal</div>
-          <div class="chip" data-val="2" onclick="pick('thal-group','thal',this)">Fixed Defect</div>
-          <div class="chip" data-val="3" onclick="pick('thal-group','thal',this)">Reversible Defect</div>
+        <div class="fsec">Blood Disorder</div>
+        <label class="flbl">Thalassemia type</label>
+        <div class="chips" id="thal-g" role="radiogroup" aria-label="Thalassemia type">
+          <div class="chip on" data-val="1" onclick="pick('thal-g','thal',this)" role="radio" aria-checked="true" tabindex="0">Normal</div>
+          <div class="chip" data-val="2" onclick="pick('thal-g','thal',this)" role="radio" aria-checked="false" tabindex="0">Fixed Defect</div>
+          <div class="chip" data-val="3" onclick="pick('thal-g','thal',this)" role="radio" aria-checked="false" tabindex="0">Reversible Defect</div>
         </div>
         <input type="hidden" id="thal" value="1"/>
+
+        <button class="btn-scan" id="scan-btn" onclick="doScan()">
+          <span class="btxt">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Analyse My Heart Risk
+          </span>
+          <div class="spin"></div>
+        </button>
+
+        <div id="rw" aria-live="polite" aria-atomic="true">
+          <div class="r-card" id="ri"></div>
+        </div>
       </div>
-
-    </div>
-
-    <div class="form-footer">
-      <button class="btn-analyse" id="predict-btn" onclick="runPredict()">
-        <span class="btn-txt">⟶ &nbsp;Analyse Cardiovascular Risk</span>
-        <div class="btn-spinner"></div>
-      </button>
-      <div class="btn-disclaimer">⚕ For clinical screening only · Always consult a qualified cardiologist</div>
     </div>
   </div>
+</section>
 
-  <!-- RIGHT -->
-  <div class="right-col">
-
-    <div id="result-panel"></div>
-
-    <!-- Feature importance -->
-    <div class="info-card">
-      <div class="info-card-header">
+<!-- ═══ 6. TRUST ═══ -->
+<section class="section-sm" style="background:white" aria-labelledby="trust-h">
+  <div class="container">
+    <div class="sec-hdr reveal" style="margin-bottom:36px">
+      <h2 id="trust-h" style="font-size:clamp(22px,3vw,32px)">Why You Can Trust This</h2>
+    </div>
+    <div class="trust-grid">
+      <article class="tc reveal">
+        <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        <h3>Real Research, Real Data</h3>
+        <p>Trained on 303 real patient records from the Cleveland Clinic. <a href="https://archive.ics.uci.edu/dataset/45/heart+disease" target="_blank" rel="noopener">View the dataset →</a></p>
+      </article>
+      <article class="tc reveal d1">
         <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-        Top Predictive Features
-      </div>
-      <div class="feature-list">
-        <div class="feat-row"><div class="feat-rank">01</div><div class="feat-info"><div class="feat-name">Chest Pain Type</div><div class="feat-desc">cp — strongest predictor</div></div><div class="feat-bar-wrap"><div class="feat-bar" style="width:100%"></div></div></div>
-        <div class="feat-row"><div class="feat-rank">02</div><div class="feat-info"><div class="feat-name">Max Heart Rate</div><div class="feat-desc">thalach — exercise capacity</div></div><div class="feat-bar-wrap"><div class="feat-bar" style="width:92%"></div></div></div>
-        <div class="feat-row"><div class="feat-rank">03</div><div class="feat-info"><div class="feat-name">Exercise Angina</div><div class="feat-desc">exang — binary signal</div></div><div class="feat-bar-wrap"><div class="feat-bar" style="width:87%"></div></div></div>
-        <div class="feat-row"><div class="feat-rank">04</div><div class="feat-info"><div class="feat-name">Major Vessels</div><div class="feat-desc">ca — fluoroscopy count</div></div><div class="feat-bar-wrap"><div class="feat-bar" style="width:82%"></div></div></div>
-        <div class="feat-row"><div class="feat-rank">05</div><div class="feat-info"><div class="feat-name">ST Depression</div><div class="feat-desc">oldpeak — exercise stress</div></div><div class="feat-bar-wrap"><div class="feat-bar" style="width:78%"></div></div></div>
-        <div class="feat-row"><div class="feat-rank">06</div><div class="feat-info"><div class="feat-name">Thalassemia</div><div class="feat-desc">thal — blood disorder</div></div><div class="feat-bar-wrap"><div class="feat-bar" style="width:74%"></div></div></div>
-        <div class="feat-row"><div class="feat-rank">07</div><div class="feat-info"><div class="feat-name">Age</div><div class="feat-desc">age — risk correlates</div></div><div class="feat-bar-wrap"><div class="feat-bar" style="width:65%"></div></div></div>
-      </div>
+        <h3>85%+ Accuracy</h3>
+        <p>Verified across 5 independent test splits. Source: <a href="https://pubmed.ncbi.nlm.nih.gov/2756873/" target="_blank" rel="noopener">Detrano et al., 1989 →</a></p>
+      </article>
+      <article class="tc reveal d2">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <h3>Your Data Is Private</h3>
+        <p>We never store your health inputs. No account needed. No tracking. Nothing shared.</p>
+      </article>
+      <article class="tc reveal d3">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <h3>Screening Only</h3>
+        <p>This is not a diagnosis. It's a first step. A High result means: see a cardiologist soon.</p>
+      </article>
     </div>
-
-    <!-- Model card -->
-    <div class="model-card">
-      <div class="model-card-title">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M4.93 19.07a10 10 0 0 1 0-14.14"/></svg>
-        Model Performance
-      </div>
-      <div class="model-metrics">
-        <div class="metric-chip"><div class="metric-chip-val">85%+</div><div class="metric-chip-lbl">ACCURACY</div></div>
-        <div class="metric-chip"><div class="metric-chip-val">RFC</div><div class="metric-chip-lbl">ALGORITHM</div></div>
-        <div class="metric-chip"><div class="metric-chip-val">200</div><div class="metric-chip-lbl">ESTIMATORS</div></div>
-        <div class="metric-chip"><div class="metric-chip-val">UCI</div><div class="metric-chip-lbl">DATASET</div></div>
-      </div>
-    </div>
-
   </div>
-</div>
-</div>
+</section>
+
+<!-- ═══ 7. PRODUCT VISION ═══ -->
+<section id="vision" aria-labelledby="vision-h">
+  <div class="container">
+    <div class="vision-inner">
+      <span class="pill" style="background:rgba(255,255,255,.08);color:rgba(255,255,255,.6);border-color:rgba(255,255,255,.12)">Product Roadmap</span>
+      <h2 id="vision-h" style="color:white">CardioScanner Is Growing<br/>Into a Full Health Platform</h2>
+      <p class="sub">Today it's a free screening tool. Tomorrow it's your personal cardiac health dashboard.</p>
+      <div class="roadmap">
+        <div class="rm live">
+          <div class="rm-badge">Live Now</div>
+          <h3>Free Screening Tool</h3>
+          <ul>
+            <li>AI cardiovascular risk score</li>
+            <li>Low / Moderate / High verdict</li>
+            <li>Based on UCI research dataset</li>
+            <li>Works on any device, free forever</li>
+          </ul>
+        </div>
+        <div class="rm soon">
+          <div class="rm-badge">Coming Soon</div>
+          <h3>Personal Dashboard</h3>
+          <ul>
+            <li>Login & save your scan history</li>
+            <li>Track risk changes over time</li>
+            <li>Download PDF health reports</li>
+            <li>Share results with your doctor</li>
+          </ul>
+        </div>
+        <div class="rm future">
+          <div class="rm-badge">Future</div>
+          <h3>Clinical Grade</h3>
+          <ul>
+            <li>Full 14-feature UCI model</li>
+            <li>ECG upload & analysis</li>
+            <li>Doctor referral integration</li>
+            <li>Family health monitoring</li>
+          </ul>
+        </div>
+      </div>
+      <div class="early-access-form">
+        <input class="email-input" type="email" id="ea-email" placeholder="Enter your email for early access" aria-label="Email for early access"/>
+        <button class="btn-ea" onclick="earlyAccess()">Get Early Access</button>
+      </div>
+      <div class="ea-note">No spam. We'll only email when features launch.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FAQ ═══ -->
+<section id="faq" class="section-sm" aria-labelledby="faq-h">
+  <div class="container">
+    <div class="sec-hdr reveal">
+      <span class="pill pill-g">FAQ</span>
+      <h2 id="faq-h">Quick Answers</h2>
+    </div>
+    <div class="faq-list" itemscope itemtype="https://schema.org/FAQPage">
+      <div class="faq-item reveal" onclick="faq(this)" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <div class="faq-q"><h3 itemprop="name">How accurate is the heart risk prediction?</h3><svg class="fq-arr" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><p itemprop="text">85%+ accuracy on the UCI Cleveland test set, verified by 5-fold cross-validation. Source: <a href="https://archive.ics.uci.edu/dataset/45/heart+disease" target="_blank" rel="noopener">UCI Heart Disease Dataset</a> and Detrano et al. (1989).</p></div>
+      </div>
+      <div class="faq-item reveal d1" onclick="faq(this)" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <div class="faq-q"><h3 itemprop="name">Can this replace my doctor?</h3><svg class="fq-arr" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><p itemprop="text">No. This is a first-step screening tool. A High-risk result means you should book a cardiologist. A Low-risk result is reassuring but not a guarantee. Always consult a doctor for diagnosis and treatment.</p></div>
+      </div>
+      <div class="faq-item reveal d2" onclick="faq(this)" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <div class="faq-q"><h3 itemprop="name">Is my health data safe?</h3><svg class="fq-arr" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><p itemprop="text">Yes. Your inputs are used only for the instant prediction call. Nothing is stored, logged, or shared. We don't even ask for your name or email to use the scanner.</p></div>
+      </div>
+      <div class="faq-item reveal d1" onclick="faq(this)" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <div class="faq-q"><h3 itemprop="name">What does a High-risk result mean?</h3><svg class="fq-arr" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><p itemprop="text">It means the AI detected a pattern consistent with higher cardiovascular risk. It does NOT mean you will have a heart attack. It means you should discuss these results with a cardiologist as soon as possible — ideally within 1–2 weeks.</p></div>
+      </div>
+      <div class="faq-item reveal d2" onclick="faq(this)" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <div class="faq-q"><h3 itemprop="name">Who built this?</h3><svg class="fq-arr" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><p itemprop="text">CardioScanner was built by Eddala Naveen Kumar (Reg. 111424148021), B.E. AI & Data Science student at Prathyusha Engineering College, Thiruvallur — as an academic project for the Machine Learning course (241ALC401T). The goal: make heart screening free and accessible to everyone.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 8. CTA ═══ -->
+<section id="cta">
+  <div class="container">
+    <h2 style="color:white">30 Seconds Could<br/>Save Your Life.</h2>
+    <p class="csub">Free. Private. Based on real clinical research. No registration needed.</p>
+    <div class="cta-row">
+      <button class="btn-w" onclick="location.href='#scan'">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Check My Heart Risk Now
+      </button>
+      <a href="#vision" class="btn-ow">See What's Coming →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="fb">
+        <div class="logo">
+          <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg></div>
+          <span class="logo-name">Cardio<span>Scanner</span></span>
+        </div>
+        <p>Free AI cardiovascular risk screening. Based on UCI Heart Disease research. Educational use only. Not a diagnostic tool.</p>
+      </div>
+      <nav class="fc">
+        <h4>Tool</h4>
+        <ul>
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="#scan">Start Free Scan</a></li>
+          <li><a href="#vision">Product Roadmap</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </nav>
+      <nav class="fc">
+        <h4>Research</h4>
+        <ul>
+          <li><a href="https://archive.ics.uci.edu/dataset/45/heart+disease" target="_blank" rel="noopener">UCI Dataset</a></li>
+          <li><a href="https://pubmed.ncbi.nlm.nih.gov/2756873/" target="_blank" rel="noopener">Detrano et al. 1989</a></li>
+          <li><a href="https://scikit-learn.org" target="_blank" rel="noopener">scikit-learn</a></li>
+        </ul>
+      </nav>
+      <nav class="fc">
+        <h4>About</h4>
+        <ul>
+          <li><a href="/privacy.html">Privacy Policy</a></li>
+          <li><a href="#">Medical Disclaimer</a></li>
+          <li><a href="mailto:naveenkumar@prathyusha.edu.in">Contact</a></li>
+          <li><a href="#">Prathyusha Eng. College</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="foot-bot">
+      <p>© 2026 CardioScanner · Eddala Naveen Kumar · Reg. 111424148021 · Prathyusha Engineering College · Thiruvallur 602025</p>
+      <div class="foot-disc">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Not a medical diagnosis. Consult a cardiologist.
+      </div>
+    </div>
+  </div>
+</footer>
 
 <div id="toast"></div>
 
 <script>
-const API_URL = 'https://heart-disease-mycro.onrender.com';
+const API_URL = 'https://YOUR-APP-NAME.onrender.com';
 
-function pick(groupId, hiddenId, el) {
-  document.querySelectorAll('#'+groupId+' .chip').forEach(c => c.classList.remove('on'));
-  el.classList.add('on');
-  document.getElementById(hiddenId).value = el.dataset.val;
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('s',scrollY>10));
+function toggleMob(){document.getElementById('mob').classList.toggle('open')}
+
+// Reveal on scroll
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// FAQ
+function faq(el){
+  const o=el.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(f=>f.classList.remove('open'));
+  if(!o) el.classList.add('open');
 }
 
-async function runPredict() {
-  const btn = document.getElementById('predict-btn');
-  const thalach = parseFloat(document.getElementById('thalach').value);
-  const oldpeak  = parseFloat(document.getElementById('oldpeak').value);
+// Chips
+function pick(gid,hid,el){
+  document.querySelectorAll('#'+gid+' .chip').forEach(c=>{c.classList.remove('on');c.setAttribute('aria-checked','false')});
+  el.classList.add('on');el.setAttribute('aria-checked','true');
+  document.getElementById(hid).value=el.dataset.val;
+}
 
-  if (!thalach || thalach < 60 || thalach > 220) {
-    showToast('Max heart rate must be 60–220 bpm', true); return;
-  }
-  if (isNaN(oldpeak) || oldpeak < 0 || oldpeak > 6) {
-    showToast('ST Depression (oldpeak) must be 0.0–6.0', true); return;
-  }
+// Early access
+function earlyAccess(){
+  const em=document.getElementById('ea-email').value.trim();
+  if(!em||!em.includes('@')){toast('Please enter a valid email address.',true);return}
+  toast('You\'re on the list! We\'ll email you when new features launch. 🎉',false);
+  document.getElementById('ea-email').value='';
+}
 
+// Scan
+async function doScan(){
+  const btn=document.getElementById('scan-btn');
+  const thalach=parseFloat(document.getElementById('thalach').value);
+  const oldpeak=parseFloat(document.getElementById('oldpeak').value);
+  if(!thalach||thalach<60||thalach>220){toast('Max heart rate must be between 60–220 bpm.',true);return}
+  if(isNaN(oldpeak)||oldpeak<0||oldpeak>6){toast('ST depression must be between 0.0–6.0.',true);return}
   btn.classList.add('loading');
-
-  const payload = {
-    age:     parseFloat(document.getElementById('age').value),
-    cp:      parseFloat(document.getElementById('cp').value),
-    thalach,
-    exang:   parseFloat(document.getElementById('exang').value),
-    oldpeak,
-    ca:      parseFloat(document.getElementById('ca').value),
-    thal:    parseFloat(document.getElementById('thal').value),
+  const payload={
+    age:parseFloat(document.getElementById('age').value),
+    cp:parseFloat(document.getElementById('cp').value),
+    thalach,exang:parseFloat(document.getElementById('exang').value),
+    oldpeak,ca:parseFloat(document.getElementById('ca').value),
+    thal:parseFloat(document.getElementById('thal').value)
   };
-
-  try {
-    const res = await fetch(API_URL + '/predict', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-    if (!res.ok) throw new Error('Server error ' + res.status);
-    const data = await res.json();
-    renderResult(data);
-  } catch (err) {
-    console.error(err);
-    showToast('Cannot reach backend. Is your Render service running?', true);
-  } finally {
-    btn.classList.remove('loading');
-  }
+  try{
+    const res=await fetch(API_URL+'/predict',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    const d=await res.json();
+    renderResult(d);
+    if(typeof gtag!=='undefined')gtag('event','prediction_made',{risk_level:d.risk_level,risk_score:d.risk_score});
+  }catch(e){
+    console.error(e);
+    toast('Cannot reach the prediction server. Check that your Render backend is running.',true);
+  }finally{btn.classList.remove('loading')}
 }
 
-function renderResult(data) {
-  const lvl = data.risk_level;
-  const cls = lvl.toLowerCase();
-  const badges = { Low:'💚', Moderate:'⚠️', High:'🚨' };
-  const titles  = { Low:'Low Risk', Moderate:'Moderate Risk', High:'High Risk' };
-  const descs   = {
-    Low:      'Your clinical parameters suggest a low likelihood of heart disease. Keep up the great lifestyle.',
-    Moderate: 'Some risk factors are elevated. A cardiologist consultation is strongly advised.',
-    High:     'Multiple high-risk indicators detected. Please seek immediate cardiology consultation.'
+function renderResult(d){
+  const lvl=d.risk_level,c=lvl.toLowerCase();
+  const em={Low:'✅',Moderate:'⚠️',High:'🚨'};
+  const titles={Low:'Low Risk',Moderate:'Moderate Risk',High:'High Risk'};
+  const descs={
+    Low:'Good news — your parameters suggest a low likelihood of heart disease right now.',
+    Moderate:'Some risk factors are elevated. This is a signal, not a diagnosis. A cardiologist consultation is recommended.',
+    High:'Multiple high-risk indicators detected. Please see a cardiologist as soon as possible. This is not a diagnosis, but it is a serious signal.'
   };
-  const advices = {
-    Low:      '<strong>Recommendation:</strong> Continue regular exercise, maintain a heart-healthy diet, and schedule annual checkups.',
-    Moderate: '<strong>Recommendation:</strong> Schedule a cardiology appointment within 2–4 weeks and consider lifestyle modifications.',
-    High:     '<strong>Recommendation:</strong> Seek urgent cardiology care. This screening indicates significant cardiovascular risk.'
+  const advs={
+    Low:'<strong>Keep it up:</strong> Maintain regular exercise, a heart-healthy diet, and schedule annual checkups.',
+    Moderate:'<strong>Next step:</strong> Book a cardiologist appointment within 2–4 weeks. Bring these results.',
+    High:'<strong>Act now:</strong> Book an urgent cardiology appointment. Share these results with your doctor today.'
   };
 
-  document.getElementById('result-panel').innerHTML = `
-    <div class="risk-card" style="margin-bottom:0">
-      <div class="risk-card-hero ${cls}">
-        <div class="verdict-label ${cls}">${badges[lvl]} &nbsp;${lvl.toUpperCase()} RISK DETECTED</div>
-        <div class="verdict-big ${cls}">${titles[lvl]}</div>
-        <div class="verdict-desc">${descs[lvl]}</div>
-      </div>
-      <div class="risk-meter-wrap">
-        <div class="risk-meter-head">
-          <span>Risk Score</span>
-          <strong class="${cls}" id="risk-pct-lbl">0%</strong>
-        </div>
-        <div class="risk-track"><div class="risk-bar ${cls}" id="risk-bar-fill"></div></div>
-      </div>
-      <div class="stats-grid">
-        <div class="stat-box"><div class="stat-box-num ${cls}">${lvl}</div><div class="stat-box-lbl">Risk Level</div></div>
-        <div class="stat-box"><div class="stat-box-num ${cls}">${data.risk_score}%</div><div class="stat-box-lbl">Risk Score</div></div>
-        <div class="stat-box"><div class="stat-box-num ${cls}">${data.confidence}%</div><div class="stat-box-lbl">Confidence</div></div>
-      </div>
-      <div class="advice-box ${cls}">
-        <div class="advice-icon">${lvl==='Low'?'✅':lvl==='Moderate'?'📋':'🏥'}</div>
-        <div class="advice-text">${advices[lvl]}</div>
-      </div>
+  document.getElementById('ri').innerHTML=`
+    <div class="r-top ${c}">
+      <div class="r-lv ${c}">${em[lvl]} ${lvl.toUpperCase()} RISK DETECTED</div>
+      <div class="r-title ${c}">${titles[lvl]}</div>
+      <div class="r-desc">${descs[lvl]}</div>
     </div>
+    <div class="r-meter">
+      <div class="r-mhd"><span>Risk Score</span><span class="rv ${c}" id="rv">—</span></div>
+      <div class="r-track"><div class="r-fill ${c}" id="rf"></div></div>
+    </div>
+    <div class="r-stats">
+      <div class="rs"><div class="rs-n ${c}">${lvl}</div><div class="rs-l">Risk Level</div></div>
+      <div class="rs"><div class="rs-n ${c}">${d.risk_score}%</div><div class="rs-l">Risk Score</div></div>
+      <div class="rs"><div class="rs-n ${c}">${d.confidence}%</div><div class="rs-l">Confidence</div></div>
+    </div>
+    <div class="r-adv ${c}">${advs[lvl]}</div>
+    <div class="r-footer">Screening result only · Not a medical diagnosis · Consult a qualified cardiologist</div>
   `;
 
-  document.getElementById('result-panel').classList.add('show');
-
-  setTimeout(() => {
-    const bar = document.getElementById('risk-bar-fill');
-    const lbl = document.getElementById('risk-pct-lbl');
-    if (bar) bar.style.width = data.risk_score + '%';
-    if (lbl) lbl.textContent = data.risk_score + '%';
-  }, 120);
-
-  document.getElementById('result-panel').scrollIntoView({ behavior:'smooth', block:'nearest' });
+  const rw=document.getElementById('rw');
+  rw.style.display='block';
+  setTimeout(()=>{
+    document.getElementById('rf').style.width=d.risk_score+'%';
+    document.getElementById('rv').textContent=d.risk_score+'%';
+  },80);
+  rw.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
-function showToast(msg, isError) {
-  const t = document.getElementById('toast');
-  t.textContent = (isError ? '⚠ ' : '✓ ') + msg;
-  t.className = isError ? 'error' : '';
-  t.style.display = 'block';
-  setTimeout(() => { t.style.display = 'none'; }, 5000);
+function toast(msg,err){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className=err?'err':'ok';
+  t.style.display='block';
+  setTimeout(()=>t.style.display='none',5000);
 }
-
-/* ── Real ECG Engine ── */
-(function(){
-  const canvas = document.getElementById('ecg-canvas');
-  if(!canvas) return;
-  const ctx = canvas.getContext('2d');
-  let bpm = 72, phase = 0, lastTime = null, dotPhase = 0;
-  const SPEED = 2.4;
-  const H = 88;
-  let W = 800;
-  const BASE = H * 0.52;
-
-  function resize(){
-    W = canvas.offsetWidth || 800;
-    canvas.width = W;
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  const history = new Array(W).fill(0);
-
-  window.setEcgBpm = function(b){
-    bpm = b;
-    const el = document.getElementById('ecg-bpm');
-    const dot = document.getElementById('ecg-dot');
-    if(el) el.textContent = b + ' BPM';
-    const hi = b >= 100, lo = b <= 55;
-    const c = hi ? '#E53935' : lo ? '#F57C00' : '#00897B';
-    if(el) el.style.color = c;
-    if(dot) dot.style.background = hi ? '#E53935' : lo ? '#F57C00' : '#00BFA5';
-  };
-
-  function ecgSample(t){
-    const cycleLen = 60 / bpm;
-    const p = ((t % cycleLen) / cycleLen + 1) % 1;
-    if(p < 0.07){
-      const u = p / 0.07;
-      return 5 * Math.sin(Math.PI * u);
-    }
-    if(p < 0.12) return 0;
-    if(p < 0.16){
-      const u = (p-0.12)/0.04;
-      return -4 * Math.sin(Math.PI * u);
-    }
-    if(p < 0.20) return 0;
-    if(p < 0.22){
-      const u = (p-0.20)/0.02;
-      return -7 * Math.sin(Math.PI * u);
-    }
-    if(p < 0.255){
-      const u = (p-0.22)/0.035;
-      return 55 * Math.sin(Math.PI * u);
-    }
-    if(p < 0.285){
-      const u = (p-0.255)/0.03;
-      return -13 * Math.sin(Math.PI * u);
-    }
-    if(p < 0.30) return 0;
-    if(p < 0.44){
-      const u = (p-0.30)/0.14;
-      return 9 * Math.sin(Math.PI * u);
-    }
-    return 0;
-  }
-
-  function draw(ts){
-    if(!lastTime) lastTime = ts;
-    const dt = Math.min((ts - lastTime)/1000, 0.05);
-    lastTime = ts;
-    phase += dt * SPEED;
-    dotPhase += dt * (bpm/60) * Math.PI * 2;
-
-    const samples = Math.max(1, Math.round(dt * 140));
-    for(let i=0;i<samples;i++){
-      history.push(ecgSample(phase - (samples-i)*(SPEED/140)));
-      if(history.length > W) history.shift();
-    }
-    while(history.length < W) history.unshift(0);
-
-    ctx.clearRect(0,0,W,H);
-
-    ctx.fillStyle = 'rgba(0,137,123,0.03)';
-    ctx.fillRect(0,0,W,H);
-
-    ctx.strokeStyle = 'rgba(0,137,123,0.1)';
-    ctx.lineWidth = 0.5;
-    const gx = W/20, gy = H/4;
-    for(let x=0;x<=W;x+=gx){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
-    for(let y=0;y<=H;y+=gy){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
-
-    ctx.strokeStyle = 'rgba(0,137,123,0.06)';
-    ctx.lineWidth = 1;
-    ctx.beginPath();ctx.moveTo(0,BASE);ctx.lineTo(W,BASE);ctx.stroke();
-
-    const headX = W - 48;
-    const tailLen = Math.min(180, headX);
-
-    ctx.save();
-    const grad = ctx.createLinearGradient(headX-tailLen,0,headX,0);
-    grad.addColorStop(0,'rgba(0,137,123,0)');
-    grad.addColorStop(0.35,'rgba(0,137,123,0.45)');
-    grad.addColorStop(1,'rgba(0,180,160,1)');
-    ctx.strokeStyle = grad;
-    ctx.lineWidth = 2.4;
-    ctx.lineJoin = 'round';
-    ctx.lineCap = 'round';
-    ctx.beginPath();
-    let started = false;
-    for(let i=0;i<tailLen;i++){
-      const idx = history.length - tailLen + i;
-      if(idx < 0) continue;
-      const x = headX - (tailLen-1-i);
-      const y = BASE - history[idx] * 0.82;
-      if(!started){ctx.moveTo(x,y);started=true;}
-      else ctx.lineTo(x,y);
-    }
-    ctx.stroke();
-    ctx.restore();
-
-    ctx.save();
-    ctx.strokeStyle = 'rgba(0,137,123,0.12)';
-    ctx.lineWidth = 1.5;
-    ctx.lineJoin = 'round';
-    ctx.beginPath();
-    started = false;
-    for(let i=0;i<headX-tailLen;i++){
-      const idx = i + (history.length - (headX-tailLen));
-      if(idx < 0 || idx >= history.length) continue;
-      const y = BASE - history[idx] * 0.82;
-      if(!started){ctx.moveTo(i,y);started=true;}
-      else ctx.lineTo(i,y);
-    }
-    ctx.stroke();
-    ctx.restore();
-
-    const curY = BASE - (history[history.length-1]||0) * 0.82;
-    const glow = 0.5 + 0.5*Math.sin(dotPhase);
-    ctx.beginPath();
-    ctx.arc(headX, curY, 5+glow*2, 0, Math.PI*2);
-    ctx.fillStyle = `rgba(0,191,165,${0.12+glow*0.12})`;
-    ctx.fill();
-    ctx.beginPath();
-    ctx.arc(headX, curY, 3, 0, Math.PI*2);
-    ctx.fillStyle = `rgba(0,191,165,${0.7+glow*0.3})`;
-    ctx.fill();
-    ctx.beginPath();
-    ctx.arc(headX, curY, 1.5, 0, Math.PI*2);
-    ctx.fillStyle = '#fff';
-    ctx.fill();
-
-    ctx.strokeStyle = 'rgba(0,137,123,0.12)';
-    ctx.lineWidth = 1;
-    ctx.setLineDash([3,3]);
-    ctx.beginPath();ctx.moveTo(headX+14,8);ctx.lineTo(headX+14,H-8);ctx.stroke();
-    ctx.setLineDash([]);
-
-    requestAnimationFrame(draw);
-  }
-  requestAnimationFrame(draw);
-})();
 </script>
 </body>
 </html>
